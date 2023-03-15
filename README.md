@@ -47,3 +47,7 @@ NFT characters can be moved across different networks (for this, we use Hyperlan
 - Also, one of the most important elements of the project that we are implementing workers that will index the network and send transactions. These workers will be written in python. 
 
 The goal of scaley-valley is to offer users access to cross-chain game content, have a seamless gaming experience, and transfer tokens with lower fees.
+
+![tg_image_423075292](https://user-images.githubusercontent.com/25884190/225343648-69e9fde2-60ea-4523-80b8-ebac27bcb780.jpeg)
+
+![tg_image_1028392436](https://user-images.githubusercontent.com/25884190/225343746-e8d17115-5fe2-434c-959a-03a14618c6da.jpeg)
