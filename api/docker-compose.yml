@@ -1,0 +1,19 @@
+version: '3'
+services:
+
+  api_db:
+    image: postgres
+    container_name: scaley_valley_db_1
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+    environment:
+      POSTGRES_DB: 'scaley_valley'
+      POSTGRES_USER: 'scaley_valley'
+      POSTGRES_PASSWORD: '123qwerty'
+    user: postgres
+    ports:
+      - "5432:5432"
+
+volumes:
+  db:

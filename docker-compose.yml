@@ -1,0 +1,46 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx/
+    ports:
+      - "443:443"
+    image: nginx
+    volumes:
+      - static:/static/
+      - /opt/ssl:/ssl
+    restart: on-failure
+    depends_on:
+      - api
+
+  api_db:
+    image: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: '${DB_NAME}'
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+    ports:
+      - "5432:5432"
+    restart: always
+
+  api:
+    image: api
+    build: ./api/
+    volumes:
+      - static:/static/
+      - media:/app/media/
+    environment:
+      DB_HOST: '${DB_HOST}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_USER: '${DB_USER}'
+      DB_NAME: '${DB_NAME}'
+      SECRET_KEY: '${SECRET_KEY}'
+    restart: on-failure
+    depends_on:
+      - api_db
+
+volumes:
+  static:
+  media:
+  db:
