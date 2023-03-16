@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
@@ -18,7 +18,7 @@ function a11yProps(index) {
 function App() {
   const location = useLocation()
   const navigate = useNavigate()
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -39,6 +39,25 @@ function App() {
         navigate('/')
     }
   }
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/':
+        setValue(0)
+        break
+      case '/resources':
+        setValue(1)
+        break
+      case '/valleys':
+        setValue(2)
+        break
+      case '/my-tokens':
+        setValue(3)
+        break
+      default:
+        setValue(0)
+    }
+  }, [location])
 
   return (
     <ConnectionProvider>
