@@ -3,8 +3,14 @@ from rest_framework.serializers import ModelSerializer
 from .models import Resource, Chain, Kind, Valley, Character
 
 
+class ChainSerializer(ModelSerializer):
+    class Meta:
+        fields = ('name', 'chain_id', 'rpc_url', 'explorer', 'image_uri')
+        model = Chain
+
+
 class ValleySerializer(ModelSerializer):
-    chain_name = SerializerMethodField()
+    chain_name = ChainSerializer(many=False, read_only=True)
 
     class Meta:
         fields = ('name', 'image_uri', 'description', 'chain', 'chain_name')
@@ -14,22 +20,13 @@ class ValleySerializer(ModelSerializer):
         return valley.chain.name
 
 
-class ChainSerializer(ModelSerializer):
-    class Meta:
-        fields = ('name', 'chain_id', 'rpc_url')
-        model = Chain
-
-
 class ResourceSerializer(ModelSerializer):
-    chain_name = SerializerMethodField()
+    chain = SerializerMethodField()
 
     class Meta:
         fields = (
-            'name', 'chain', 'chain_name', 'resource_token_address', 'trade_contract_address', 'resource_token_name')
+            'name', 'chain', 'resource_token_address', 'trade_contract_address', 'resource_token_name')
         model = Resource
-
-    def get_chain_name(self, resource: Resource):
-        return resource.chain.name
 
 
 class KindSerializer(ModelSerializer):

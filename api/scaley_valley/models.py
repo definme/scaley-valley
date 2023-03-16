@@ -7,6 +7,8 @@ class Chain(Model):
     name = CharField(max_length=255)
     chain_id = IntegerField(primary_key=True)
     rpc_url = CharField(max_length=255)
+    explorer = CharField(max_length=255, blank=True, null=True)
+    image_uri = CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f'{self.name}({self.chain_id})'
