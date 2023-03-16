@@ -4,11 +4,13 @@ export function shortenAddress(address) {
 
 export function getNetworkIcon(chain) {
   switch (chain) {
+    case 5:
+      return require('../images/Ethereum.png')
     case 420:
       return require('../images/Optimism.jpeg')
     case 80001:
       return require('../images/Polygon.png')
     default:
-      return require('../images/Polygon.png')
+      return require('../images/Ethereum.png')
   }
 }
