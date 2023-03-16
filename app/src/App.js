@@ -3,10 +3,11 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Header from './components/Header'
+import ConnectionProvider from './contexts/ConnectionContext'
 
 function App() {
   return (
-    <>
+    <ConnectionProvider>
       <Header />
       <Container>
         <Box sx={{ my: 4 }}>
@@ -15,7 +16,7 @@ function App() {
           </Typography>
         </Box>
       </Container>
-    </>
+    </ConnectionProvider>
   )
 }
 

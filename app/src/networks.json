@@ -1,0 +1,30 @@
+{
+  "420": {
+    "name": "Optimism",
+    "params": {
+      "chainId": "0x1A4",
+      "chainName": "Optimism Goerli",
+      "nativeCurrency": {
+        "name": "ETH",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://goerli.optimism.io"],
+      "blockExplorerUrls": ["https://goerli-explorer.optimism.io/"]
+    }
+  },
+  "80001": {
+    "name": "Mumbai",
+    "params": {
+      "chainId": "0x13881",
+      "chainName": "Mumbai",
+      "nativeCurrency": {
+        "name": "MATIC",
+        "symbol": "MATIC",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://endpoints.omniatech.io/v1/matic/mumbai/public/"],
+      "blockExplorerUrls": ["https://mumbai.polygonscan.com/"]
+    }
+  }
+}
