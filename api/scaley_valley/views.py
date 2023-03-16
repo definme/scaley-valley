@@ -1,13 +1,30 @@
 from django.contrib.auth.models import User
 from rest_framework import permissions, viewsets
 
-from .serializer import UserSerializer
+from .serializer import ValleySerializer, ChainSerializer, ResourceSerializer, CharacterSerializer, KindSerializer
+from .models import Resource, Chain, Kind, Valley, Character
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class ChainViewSet(viewsets.ModelViewSet):
+    queryset = Chain.objects.all()
+    serializer_class = ChainSerializer
+
+
+class ValleyViewSet(viewsets.ModelViewSet):
+    queryset = Valley.objects.all()
+    serializer_class = ValleySerializer
+
+
+class ResourceViewSet(viewsets.ModelViewSet):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceSerializer
+
+
+class KindViewSet(viewsets.ModelViewSet):
+    queryset = Kind.objects.all()
+    serializer_class = KindSerializer
+
+
+class CharacterViewSet(viewsets.ModelViewSet):
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
