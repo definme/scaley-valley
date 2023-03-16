@@ -69,7 +69,7 @@ function App() {
           aria-label='basic tabs example'
         >
           <Tab label='Buy Character' {...a11yProps(0)} />
-          <Tab label='Buy Recources' {...a11yProps(1)} />
+          <Tab label='Buy Resources' {...a11yProps(1)} />
           <Tab label='Explore the Valleys' {...a11yProps(2)} />
           <Tab label='My Tokens' {...a11yProps(2)} />
         </Tabs>
