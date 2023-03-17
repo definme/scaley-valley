@@ -1,4 +1,4 @@
-import { Wallet, utils } from "zksync-web3";
+import { Wallet } from "zksync-web3";
 import * as ethers from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
@@ -11,21 +11,16 @@ if (!PRIVATE_KEY) {
 }
 
 export default async function (hre: HardhatRuntimeEnvironment) {
-  const contractName = "ZksyncForest";
+  const contractName = "TradeContract";
   console.log(`Running deploy script for the ${contractName} contract`);
   const wallet = new Wallet(PRIVATE_KEY);
   const deployer = new Deployer(hre, wallet);
   const artifact = await deployer.loadArtifact(contractName);
-  const deploymentFee = await deployer.estimateDeployFee(artifact, []);
-  const depositHandle = await deployer.zkWallet.deposit({
-    to: deployer.zkWallet.address,
-    token: utils.ETH_ADDRESS,
-    amount: deploymentFee.mul(2),
-  });
-  await depositHandle.wait();
-  const parsedFee = ethers.utils.formatEther(deploymentFee.toString());
-  console.log(`The deployment is estimated to cost ${parsedFee} ETH`);
-  const greeterContract = await deployer.deploy(artifact, []);
-  const contractAddress = greeterContract.address;
+  const initialPrice = ethers.utils.parseEther("100");
+  const mintTokenDelta = ethers.utils.parseEther("1");
+  const kindToBeTraded = 0x0001;
+  const args = [process.env.TOKEN_ADDRESS, initialPrice, mintTokenDelta, kindToBeTraded];
+  const contract = await deployer.deploy(artifact, args);
+  const contractAddress = contract.address;
   console.log(`${artifact.contractName} was deployed to ${contractAddress}`);
 }

@@ -14,10 +14,10 @@ describe("TradeContract", () => {
         this.stranger = (await ethers.getSigners())[1];
 
         const resourceTokenFactory = await ethers.getContractFactory("ResourceToken");
-        this.gnosisRiverResourceERC20 = await resourceTokenFactory.deploy("GnosisRiver", "WATR");
-        this.zkSyncForestResourceERC20 = await resourceTokenFactory.deploy("ZkSyncForest", "WOOD");
-        this.optimisticLightResourceERC20 = await resourceTokenFactory.deploy("OptimisticLight", "OPTIC");
-        this.polyAirResourceERC20 = await resourceTokenFactory.deploy("PolyAir", "AIR");
+        this.gnosisRiverResourceERC20 = await resourceTokenFactory.deploy("GnosisRiver", "WATR", 100);
+        this.zkSyncForestResourceERC20 = await resourceTokenFactory.deploy("ZkSyncForest", "WOOD", 100);
+        this.optimisticLightResourceERC20 = await resourceTokenFactory.deploy("OptimisticLight", "OPTIC", 100);
+        this.polyAirResourceERC20 = await resourceTokenFactory.deploy("PolyAir", "AIR", 100);
 
         // the 0x... constants were taken directly from contract
         this.contractGnosis = await tradeContractFactory.deploy(this.gnosisRiverResourceERC20.address, this.initialPrice, this.priceDeltaPerMintedToken, 0x0000);
@@ -43,7 +43,7 @@ describe("TradeContract", () => {
 
         this.mockMessageTokenMinted = async (kind, amountMinted) => {
             this.contracts.forEach(async (contract) => {
-                contract.calculatePrices(kind, amountMinted)
+                await contract.calculatePrices(kind, amountMinted)
             });
         }
 

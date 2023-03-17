@@ -3,7 +3,7 @@ const setup = require("./setup.js");
 const {ethers} = require("ethers");
 require("dotenv").config();
 
-const bridgeAmount = ethers.utils.parseEther("50000");
+const bridgeAmount = ethers.utils.parseEther("500");
 
 const main = async () => {
     const l2Provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_URL_L2);
