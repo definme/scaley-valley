@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { utils } from 'ethers'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Header from './components/Header'
-import ConnectionProvider from './contexts/ConnectionContext'
 import { BuyCharacter, BuyResource, ExploreValleys, MyTokens } from './pages'
+import { getERC20Recource } from './api/contracts'
+import { ConnectionContext } from './contexts/ConnectionContext'
 
 function a11yProps(index) {
   return {
@@ -18,6 +20,7 @@ function a11yProps(index) {
 function App() {
   const location = useLocation()
   const navigate = useNavigate()
+  const { userAddress, chainId } = useContext(ConnectionContext)
   const [value, setValue] = useState(0)
 
   const handleChange = (event, newValue) => {
@@ -40,6 +43,16 @@ function App() {
     }
   }
 
+  async function getWoodBalance() {
+    const zksyncERC20 = await getERC20Recource('280')
+    zksyncERC20
+      .balanceOf(userAddress)
+      .then(res => {
+        const wood = Number(utils.formatEther(res))
+      })
+      .catch(e => console.log(e))
+  }
+
   useEffect(() => {
     switch (location.pathname) {
       case '/':
@@ -59,8 +72,12 @@ function App() {
     }
   }, [location])
 
+  useEffect(() => {
+    if (userAddress && chainId) getWoodBalance()
+  }, [userAddress, chainId])
+
   return (
-    <ConnectionProvider>
+    <>
       <Header />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
@@ -85,7 +102,7 @@ function App() {
           </Routes>
         </Box>
       </Container>
-    </ConnectionProvider>
+    </>
   )
 }
 
