@@ -1,8 +1,7 @@
 import json
-
-from django.contrib.auth.models import User
 from rest_framework import permissions, viewsets, views, renderers
 from rest_framework.response import Response
+from django_filters import FilterSet, CharFilter, rest_framework
 
 from .serializer import ValleySerializer, ChainSerializer, ResourceSerializer, CharacterSerializer, KindSerializer
 from .models import Resource, Chain, Kind, Valley, Character
@@ -28,9 +27,15 @@ class KindViewSet(viewsets.ModelViewSet):
     serializer_class = KindSerializer
 
 
+class CharacterFilter(FilterSet):
+    owner = CharFilter(field_name='owner__address')
+
+
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
+    filter_backends = [rest_framework.DjangoFilterBackend]
+    filterset_class = CharacterFilter
 
 
 class MetadataView(views.APIView):
