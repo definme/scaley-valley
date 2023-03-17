@@ -11,7 +11,7 @@ function BuyCharacter() {
           flexWrap: "wrap",
           gap: "20px"
       }}>
-          {Array.from(Array(8)).map((index) => (
+          {Array.from(Array(8)).map((_,index) => (
               <CustomCard
                   key={index}
                   title="Aquatique"
