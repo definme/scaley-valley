@@ -13,18 +13,18 @@
       "blockExplorerUrls": ["https://goerli-explorer.optimism.io/"]
     }
   },
-  "80001": {
-    "name": "Mumbai",
+  "1422": {
+    "name": "Polygon",
     "params": {
-      "chainId": "0x13881",
-      "chainName": "Mumbai",
+      "chainId": "0x58E",
+      "chainName": "Polygon zkEVM",
       "nativeCurrency": {
-        "name": "MATIC",
-        "symbol": "MATIC",
+        "name": "ETH",
+        "symbol": "ETH",
         "decimals": 18
       },
-      "rpcUrls": ["https://endpoints.omniatech.io/v1/matic/mumbai/public/"],
-      "blockExplorerUrls": ["https://mumbai.polygonscan.com/"]
+      "rpcUrls": ["https://explorer.public.zkevm-test.net/api/eth-rpc"],
+      "blockExplorerUrls": ["https://explorer.public.zkevm-test.net/"]
     }
   }
 }
