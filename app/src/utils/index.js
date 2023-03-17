@@ -8,7 +8,7 @@ export function getNetworkIcon(chain) {
       return require('../images/Ethereum.png')
     case 420:
       return require('../images/Optimism.jpeg')
-    case 80001:
+    case 1422:
       return require('../images/Polygon.png')
     default:
       return require('../images/Ethereum.png')

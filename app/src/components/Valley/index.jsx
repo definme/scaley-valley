@@ -4,8 +4,9 @@ import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import { getNetworkIcon } from '../../utils'
+import networks from '../../networks.json'
 
-export default function Valley({ name, chain, description, chainNum }) {
+export default function Valley({ name, chain, description, image_uri }) {
   const navigate = useNavigate()
 
   return (
@@ -31,18 +32,24 @@ export default function Valley({ name, chain, description, chainNum }) {
             gap: '5px',
           }}
         >
-          <Avatar src={getNetworkIcon(+chainNum)} alt='chain'></Avatar>
+          <Avatar src={getNetworkIcon(+chain)} alt='chain'></Avatar>
           <Typography variant='body1' component='h2'>
             {name}
           </Typography>
         </Box>
-        <img src={require('../../images/Valley.jpeg')} width='350px' />
+        <img src={image_uri} width='350px' alt='valley' />
       </Box>
       <Box
-        sx={{ p: '20px', pb: '5px', display: 'flex', flexDirection: 'column' }}
+        sx={{
+          p: '20px',
+          pb: '5px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+        }}
       >
         <Typography variant='h6' component='h3'>
-          Chain: {chain}
+          Chain: {networks[chain]?.params.chainName}
         </Typography>
         <Typography variant='subtitle2' component='p'>
           Description: {description}
