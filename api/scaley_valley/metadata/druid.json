@@ -1,0 +1,26 @@
+{
+  "name": "Druid",
+  "image": "https://scaley-valley.definme.com/images/druid.png",
+  "description": "Forests lord and protector inspiring forest beings to be strong. Has medium agility and intellect perks",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Character"
+    },
+    {
+      "trait_type": "Level",
+      "value": 1,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Agility",
+      "value": 1,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Intellect",
+      "value": 1,
+      "max_value": 100
+    }
+  ]
+}

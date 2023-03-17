@@ -1,0 +1,26 @@
+{
+  "name": "Illuminator",
+  "image": "https://scaley-valley.definme.com/images/illuminator.png",
+  "description": "Light enforced creature with mission to illuminate the valley. Has the strongest intellect perks",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Character"
+    },
+    {
+      "trait_type": "Level",
+      "value": 1,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Agility",
+      "value": 1,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Intellect",
+      "value": 1,
+      "max_value": 100
+    }
+  ]
+}

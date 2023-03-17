@@ -25,28 +25,24 @@ class ResourceSerializer(ModelSerializer):
 
     class Meta:
         fields = (
-            'name', 'chain', 'resource_token_address', 'trade_contract_address', 'resource_token_name')
+            'name', 'chain', 'resource_token_address', 'trade_contract_address', 'resource_token_name', 'image_uri')
         model = Resource
 
 
 class KindSerializer(ModelSerializer):
-    resource = ResourceSerializer(many=False, read_only=True)
+    payment_resource = ResourceSerializer(many=False, read_only=True)
 
     class Meta:
-        fields = ('name', 'contract_kind_id', 'resource', 'image_uri')
+        fields = ('name', 'contract_kind_id', 'image_uri', 'payment_resource')
         model = Kind
 
 
 class CharacterSerializer(ModelSerializer):
     valley = ValleySerializer(many=False, read_only=True)
     kind = KindSerializer(many=False, read_only=True)
-    image_uri = SerializerMethodField()
 
     class Meta:
         fields = (
-            'kind', 'image_uri', 'contract_token_id', 'owner', 'price', 'level', 'agility', 'intellect',
+            'kind', 'contract_token_id', 'owner', 'price', 'level', 'agility', 'intellect',
             'valley', 'creation_time', 'last_update')
         model = Character
-
-    def get_image_uri(self, character: Character):
-        return character.kind.image_uri
