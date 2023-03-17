@@ -6,7 +6,7 @@ export async function getERC20Recource(chainId) {
   let provider
   let signer
   switch (chainId) {
-    case '280':
+    case '5' || '280':
       provider = new ethers.providers.JsonRpcProvider(
         networks[chainId].params.rpcUrls[0]
       )
