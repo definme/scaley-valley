@@ -1,21 +1,23 @@
-import Typography from '@mui/material/Typography'
 import CustomCard from "../../components/CustomCard";
 import Box from "@mui/material/Box";
-import {Grid} from "@mui/material";
 
 function BuyCharacter() {
-  return (
+    return (
       <Box sx={{
           width: "100%",
           display: "flex",
           flexWrap: "wrap",
-          gap: "20px"
+          gap: "10px"
       }}>
-          {Array.from(Array(8)).map((_,index) => (
+          {Array.from(Array(4)).map((_,index) => (
               <CustomCard
                   key={index}
+                  image={'https://scaley-valley.definme.com/images/hermes.png'}
                   title="Aquatique"
-                  description="Description"
+                  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Consequatur dignissimos dolore dolorem, earum eum ipsa laboriosam,
+                    modi neque, odit quibusdam quis voluptatem voluptates?
+                    Accusamus aperiam commodi pariatur quos temporibus? Illum."
                   price="100"
               />
           ))}
