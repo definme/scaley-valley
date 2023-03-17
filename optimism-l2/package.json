@@ -1,12 +1,10 @@
 {
-  "name": "scaley-valley-contracts",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:OnGridSystems/scaley-valley-contracts.git",
-  "author": "Definme",
-  "license": "MIT",
-  "scripts": {
-    "test": "hardhat test"
+  "dependencies": {
+    "@eth-optimism/contracts-bedrock": "^0.13.1",
+    "@eth-optimism/sdk": "^2.0.1",
+    "@openzeppelin/contracts": "^4.8.2",
+    "dotenv": "^16.0.3",
+    "hardhat": "^2.13.0"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
@@ -20,16 +18,8 @@
     "@typechain/hardhat": "^6.1.2",
     "chai": "^4.2.0",
     "ethers": "^5.4.7",
-    "hardhat": "^2.13.0",
-    "hardhat-deploy": "^0.11.25",
-    "hardhat-deploy-ethers": "^0.3.0-beta.13",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
     "typechain": "^8.1.0"
-  },
-  "dependencies": {
-    "@openzeppelin/contracts": "^4.8.2",
-    "dotenv": "^16.0.3",
-    "mocha": "^10.2.0"
   }
 }
