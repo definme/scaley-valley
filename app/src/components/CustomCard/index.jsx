@@ -7,7 +7,7 @@ import './CustomCard.css';
 function CustomCard({image, title, description, price}){
     return(
         <Box className="card">
-            <img src={image} alt="character image"/>
+            <img className="card__img" src={image} alt="character image"/>
             <Box className="card__inner">
                 <Typography align="center" color={"white"}>{title}</Typography>
                 <Typography color={"white"} fontWeight="bold">Price: {price}</Typography>
