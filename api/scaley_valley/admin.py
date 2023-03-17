@@ -1,5 +1,18 @@
 from django.contrib import admin
-from .models import Resource, Chain, Kind, Valley, Character
+from .models import User, Resource, Chain, Kind, Valley, Character
+
+
+class CharacterInLine(admin.TabularInline):
+    model = Character
+
+    def get_extra(self, request, obj=None, **kwargs):
+        return 0
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    inlines = [CharacterInLine]
+    search_fields = ('username', 'address', 'email')
 
 
 @admin.register(Resource)

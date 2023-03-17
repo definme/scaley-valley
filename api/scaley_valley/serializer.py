@@ -21,7 +21,7 @@ class ValleySerializer(ModelSerializer):
 
 
 class ResourceSerializer(ModelSerializer):
-    chain = SerializerMethodField()
+    chain = ChainSerializer(many=False, read_only=True)
 
     class Meta:
         fields = (

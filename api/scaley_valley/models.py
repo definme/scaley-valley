@@ -1,6 +1,91 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import UnicodeUsernameValidator, AbstractBaseUser, PermissionsMixin
+from django.core.validators import EmailValidator
 from django.db.models import Model, IntegerField, CharField, DecimalField, ForeignKey, SET_NULL, CASCADE, TextField, \
-    DateTimeField
+    DateTimeField, EmailField, BooleanField
+from django.utils.translation import gettext_lazy as _
+
+
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, address, email, **extra_fields):
+        """
+        Create and save a user with the given username, address and password.
+        """
+        if not address:
+            raise ValueError('The given address must be set')
+        user = self.model(address=address, email=email, **extra_fields)
+        user.save(using=self._db)
+        return user
+
+    def _create_super_user(self, password, username, **extra_fields):
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, address, email=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(address, email, **extra_fields)
+
+    def create_superuser(self, password, username=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_super_user(password, username, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    username_validator = UnicodeUsernameValidator()
+    address = CharField(max_length=255, unique=True, blank=True, null=True)
+    username = CharField(
+        _('username'),
+        max_length=150,
+        unique=True,
+        null=True,
+        blank=True,
+        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        validators=[username_validator],
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
+    email = EmailField(max_length=254, unique=True, null=True, blank=True, validators=[EmailValidator])
+
+    class Meta:
+        ordering = ['username']
+
+    is_active = BooleanField(default=True)
+    is_staff = BooleanField(default=False)
+
+    USERNAME_FIELD = 'username'
+
+    objects = UserManager()
+
+    def __str__(self):
+        if self.email:
+            return str(self.email)
+        if self.address:
+            return f"Created by indexer: {self.address}"
+        if self.username:
+            return f"Staff: {self.username}"
+
+    def get_short_name(self):
+        return self.username
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = None
+        if not self.address:
+            self.address = None
+        super().save(*args, **kwargs)
 
 
 class Chain(Model):
