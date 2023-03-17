@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
-import { getNetworkIcon } from '../../utils'
 import networks from '../../networks.json'
 
 export default function Valley({ name, chain, description, image_uri }) {
@@ -32,7 +31,7 @@ export default function Valley({ name, chain, description, image_uri }) {
             gap: '5px',
           }}
         >
-          <Avatar src={getNetworkIcon(+chain)} alt='chain'></Avatar>
+          <Avatar src={networks[chain].image} alt='chain'></Avatar>
           <Typography variant='body1' component='h2'>
             {name}
           </Typography>

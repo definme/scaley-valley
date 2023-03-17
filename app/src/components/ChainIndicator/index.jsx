@@ -10,7 +10,6 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import networks from '../../networks.json'
 import { SUPPORTED_CHAINS } from '../../constants'
-import { getNetworkIcon } from '../../utils'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 
 export default function ChainIndicator({ chain }) {
@@ -73,7 +72,7 @@ export default function ChainIndicator({ chain }) {
         {SUPPORTED_CHAINS.includes(chain) ? (
           <>
             {' '}
-            <Avatar src={getNetworkIcon(+chain)} alt='chain'></Avatar>
+            <Avatar src={networks[chain]?.image} alt='chain'></Avatar>
             <Typography variant='h6' component='h3'>
               {networks[chain].name}
             </Typography>
