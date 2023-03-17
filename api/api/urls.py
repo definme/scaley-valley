@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from scaley_valley.views import MetadataView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include("scaley_valley.urls")),
+    path('metadata/<str:contract_token_id>.json', MetadataView.as_view())
 ]

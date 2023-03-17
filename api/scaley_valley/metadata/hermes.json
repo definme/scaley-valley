@@ -1,0 +1,26 @@
+{
+  "name": "Hermes",
+  "image": "https://scaley-valley.definme.com/images/hermes.png",
+  "description": "Hermes is fast as wind and nimble as the air. Has the strongest all perks.",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Character"
+    },
+    {
+      "trait_type": "Level",
+      "value": 1,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Agility",
+      "value": 1,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Intellect",
+      "value": 1,
+      "max_value": 100
+    }
+  ]
+}
