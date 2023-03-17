@@ -31,7 +31,7 @@ function BuyResource() {
       }}
     >
       {resources.map((resource, index) => (
-        <ResourceCard key={index} price='100' {...resource} />
+        <ResourceCard key={index} {...resource} />
       ))}
     </Box>
   )

@@ -1,11 +1,38 @@
-import React from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { utils } from 'ethers'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import { getERC20Recource } from '../../api/contracts'
+import { ConnectionContext } from '../../contexts/ConnectionContext'
+import networks from '../../networks.json'
 
-function ResourceCard({ name, resource_token_name, price, chain, image_uri }) {
+function ResourceCard({ name, resource_token_name, chain, image_uri }) {
+  const { userAddress } = useContext(ConnectionContext)
+  const [price, setPrice] = useState(0)
+  const [amount, setAmount] = useState('1')
+
+  async function getResourceNativePrice() {
+    const resourceERC20 = await getERC20Recource('5')
+    resourceERC20
+      .getRequiredNativeCurrencyToBuy(utils.parseEther(amount))
+      .then(res => {
+        setPrice(Number(utils.formatEther(res)))
+      })
+      .catch(e => console.log(e))
+  }
+
+  function handleAmount(e) {
+    console.log(e)
+    setAmount(e.target.value)
+  }
+
+  useEffect(() => {
+    if (userAddress) getResourceNativePrice()
+  }, [userAddress, amount])
+
   return (
     <Box
       sx={{
@@ -46,7 +73,7 @@ function ResourceCard({ name, resource_token_name, price, chain, image_uri }) {
         </Typography>
         <Typography>Chain: {name}</Typography>
         <Typography variant='h6' gutterBottom sx={{ fontWeight: '700' }}>
-          Price: {price} USDT
+          Price: {price} {networks[chain.chain_id].params.nativeCurrency.symbol}
         </Typography>
         <Box
           sx={{
@@ -66,6 +93,8 @@ function ResourceCard({ name, resource_token_name, price, chain, image_uri }) {
               shrink: true,
             }}
             sx={{ width: '60%' }}
+            value={amount}
+            onChange={handleAmount}
           />
         </Box>
 
