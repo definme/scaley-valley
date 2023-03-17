@@ -2,7 +2,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import UnicodeUsernameValidator, AbstractBaseUser, PermissionsMixin
 from django.core.validators import EmailValidator
 from django.db.models import Model, IntegerField, CharField, DecimalField, ForeignKey, SET_NULL, CASCADE, TextField, \
-    DateTimeField, EmailField, BooleanField
+    DateTimeField, EmailField, BooleanField, TextChoices, PositiveBigIntegerField
 from django.utils.translation import gettext_lazy as _
 
 
@@ -94,6 +94,8 @@ class Chain(Model):
     rpc_url = CharField(max_length=255)
     explorer = CharField(max_length=255, blank=True, null=True)
     image_uri = CharField(max_length=255, blank=True, null=True)
+    last_indexed_block = PositiveBigIntegerField(blank=True, null=True)
+    indexed_blocks_interval = PositiveBigIntegerField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.name}({self.chain_id})'
@@ -127,9 +129,10 @@ class Valley(Model):
 
 class Kind(Model):
     name = CharField(max_length=255, unique=True)
-    contract_kind_id = DecimalField(max_digits=80, decimal_places=0)
+    contract_kind_id = DecimalField(max_digits=80, decimal_places=0, unique=True)
     payment_resource = ForeignKey(Resource, related_name='kind', on_delete=SET_NULL, blank=True, null=True)
     image_uri = CharField(max_length=255)
+    supply = DecimalField(max_digits=80, decimal_places=0, default=0, blank=True)
     creation_time = DateTimeField(auto_now_add=True)
     last_update = DateTimeField(auto_now=True)
 
@@ -151,3 +154,23 @@ class Character(Model):
 
     def __str__(self):
         return f'{self.contract_token_id}'
+
+
+class StatusChoices(TextChoices):
+    NEW = ("NEW", _("New"))
+    SENT = ("SENT", _("Sent"))
+    SUCCESS = ("SUCCESS", _("Success"))
+    FAIL = ("FAIL", _("Fail"))
+
+
+class NFTMintRequest(Model):
+    kind = ForeignKey(Kind, related_name='mint_requests', on_delete=CASCADE)
+    recipient = CharField(max_length=42)
+    price = DecimalField(max_digits=256, decimal_places=0)
+    nft_id = DecimalField(max_digits=256, decimal_places=0, null=True, blank=True)
+    mint_tx_hash = CharField(max_length=66, null=True, blank=True)
+    purchase_tx_hash = CharField(max_length=66, unique=True)
+    status = CharField(max_length=255, choices=StatusChoices.choices)
+
+    def __str__(self) -> str:
+        return f"Mint {self.kind.name} token to {self.recipient} bought on {self.purchase_tx_hash}"
