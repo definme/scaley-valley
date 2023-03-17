@@ -1,6 +1,37 @@
 {
+  "5": {
+    "name": "Goerli",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/768px-Ethereum-icon-purple.svg.png",
+    "params": {
+      "chainId": "0x5",
+      "chainName": "Goerli",
+      "nativeCurrency": {
+        "name": "ETH",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://goerli.blockpi.network/v1/rpc/public"],
+      "blockExplorerUrls": ["https://goerli.etherscan.io/"]
+    }
+  },
+  "280": {
+    "name": "zkSynk Era",
+    "image": "https://icodrops.com/wp-content/uploads/2020/12/zkSync_logo.jpg",
+    "params": {
+      "chainId": "0x118",
+      "chainName": "zkSynk Era",
+      "nativeCurrency": {
+        "name": "ETH",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://zksync2-testnet.zksync.dev"],
+      "blockExplorerUrls": ["https://zksync2-testnet.zkscan.io/"]
+    }
+  },
   "420": {
     "name": "Optimism",
+    "image": "https://assets-global.website-files.com/6364e65656ab107e465325d2/637aee5401271816b742f1d0_01HdMDRzEw5i8L7vAxa2TtoWOFBrT8ybtRTaRv_InkE.jpeg",
     "params": {
       "chainId": "0x1A4",
       "chainName": "Optimism Goerli",
@@ -15,6 +46,7 @@
   },
   "1422": {
     "name": "Polygon",
+    "image": "https://seeklogo.com/images/P/polygon-hermez-logo-714211945F-seeklogo.com.png",
     "params": {
       "chainId": "0x58E",
       "chainName": "Polygon zkEVM",
@@ -25,6 +57,37 @@
       },
       "rpcUrls": ["https://explorer.public.zkevm-test.net/api/eth-rpc"],
       "blockExplorerUrls": ["https://explorer.public.zkevm-test.net/"]
+    }
+  },
+
+  "10200": {
+    "name": "Gnosis",
+    "image": "https://static-00.iconduck.com/assets.00/gnosis-cryptocurrency-icon-512x512-8zmmvcau.png",
+    "params": {
+      "chainId": "0x27D8",
+      "chainName": "Gnosis Chiado",
+      "nativeCurrency": {
+        "name": "xDAI",
+        "symbol": "xDAI",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://rpc.chiadochain.net"],
+      "blockExplorerUrls": ["https://blockscout.chiadochain.net/"]
+    }
+  },
+  "80001": {
+    "name": "Mumbai",
+    "image": "https://app.intotheblock.com/static-assets/coins/matic.png",
+    "params": {
+      "chainId": "0x13881",
+      "chainName": "Mumbai",
+      "nativeCurrency": {
+        "name": "MATIC",
+        "symbol": "MATIC",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://endpoints.omniatech.io/v1/matic/mumbai/public/"],
+      "blockExplorerUrls": ["https://mumbai.polygonscan.com/"]
     }
   }
 }
