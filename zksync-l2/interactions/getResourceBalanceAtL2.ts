@@ -1,16 +1,16 @@
-import {Wallet, Provider, Contract} from "zksync-web3";
-import * as ethers from "ethers";
+import {providers, Contract} from "ethers";
 import {config} from "dotenv";
-import {abi} from "../artifacts-zk/contracts/ZksyncForest.sol/ZksyncForest.json"
+import * as abi from "./ZksyncForest.json"
 
 config();
 
+/*
+This is executed on ZkSync testnet
+ */
 const main = async function () {
-    const zkSyncProvider = new Provider(process.env.ZKSYNC_URL as string);
-    const ethereumProvider = new ethers.providers.JsonRpcProvider(process.env.GOERLI_URL as string);
-    const wallet = new Wallet(process.env.PRIVATE_KEY, zkSyncProvider, ethereumProvider);
-    const contract = new Contract(process.env.TOKEN_ADDRESS, abi, wallet);
-    const balance = await contract.balanceOf(await wallet.getAddress());
+    const zkSyncProvider = new providers.JsonRpcProvider(process.env.ZKSYNC_URL as string);
+    const contract = new Contract(process.env.TOKEN_ADDRESS, abi, zkSyncProvider);
+    const balance = await contract.balanceOf("0x22E837C1E3380e8f38758C8490d9865433bF3ad5"); // some address
     console.log(balance.toString());
 }
 

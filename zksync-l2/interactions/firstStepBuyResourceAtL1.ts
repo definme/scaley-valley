@@ -7,7 +7,9 @@ import * as abi from "./ZksyncForest.json"
 config();
 
 const tokenAmount = ethers.utils.parseEther("13");
-
+/*
+This is executed on L1 Ethereum chain
+ */
 const main = async function () {
     const zkSyncProvider = new Provider(process.env.ZKSYNC_URL as string);
     const ethereumProvider = new ethers.providers.JsonRpcProvider(process.env.GOERLI_URL as string);

@@ -5,6 +5,9 @@ require("dotenv").config();
 
 const bridgeAmount = ethers.utils.parseEther("500");
 
+/*
+This is executed on L1 Ethereum chain
+ */
 const main = async () => {
     const l2Provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_URL_L2);
     const l1Signer = new ethers.Wallet(process.env.PRIVATE_KEY, new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_URL_L1));

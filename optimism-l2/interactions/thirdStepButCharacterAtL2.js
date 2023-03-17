@@ -1,6 +1,9 @@
 const hre = require("hardhat");
 require('dotenv').config();
 
+/*
+This is executed on Optimism network
+ */
 const main = async () => {
     const trade = await hre.ethers.getContractAt("TradeContract", process.env.TRADE_ADDRESS);
     const resource = await hre.ethers.getContractAt("OptimisticLight", process.env.TOKEN_ADDRESS_L2);
