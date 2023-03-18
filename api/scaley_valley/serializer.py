@@ -25,7 +25,7 @@ class ResourceSerializer(ModelSerializer):
 
     class Meta:
         fields = (
-            'name', 'chain', 'resource_token_address', 'trade_contract_address', 'resource_token_name', 'image_uri')
+            'name', 'price', 'chain', 'resource_token_address', 'trade_contract_address', 'resource_token_name', 'image_uri')
         model = Resource
 
 

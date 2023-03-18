@@ -6,7 +6,7 @@ from eth_typing import ChecksumAddress
 from web3 import Web3
 from web3.contract import Contract
 
-from scaley_valley.models import NFTMintRequest, StatusChoices, Chain
+from scaley_valley.models import NFTMintRequest, StatusChoices, Chain, Character, User, Valley
 
 
 class MintController:
@@ -15,19 +15,20 @@ class MintController:
     chain: Chain
     contract: Contract
     w3: Web3
+    valley: Valley
 
     def __init__(self, indexer_interval: int, private_key: str, nft_contract_address: ChecksumAddress, chain_id: int):
         self.indexer_interval = indexer_interval
         self.account = Account.from_key(private_key)
-        chain = Chain.objects.get(chain_id=chain_id)
-        self.w3 = Web3(Web3.HTTPProvider(chain.rpc_url))
+        self.chain = Chain.objects.get(chain_id=chain_id)
+        self.w3 = Web3(Web3.HTTPProvider(self.chain.rpc_url))
         with open("abi/ScaleyValleyCollection.abi.json") as abi:
             self.contract = self.w3.eth.contract(address=nft_contract_address, abi=json.load(abi))
+        self.valley = Valley.objects.get(chain=self.chain)
 
     def start(self):
         while True:
             self.__cycle_body()
-            print(f"Sleep for {self.indexer_interval} sec")
             time.sleep(self.indexer_interval)
 
     def __cycle_body(self):
@@ -52,4 +53,16 @@ class MintController:
                 mint_request.status = StatusChoices.SUCCESS
                 mint_request.mint_tx_hash = mint_tx_hash.hex()
                 mint_request.nft_id = nft_id
+                owner, created = User.objects.get_or_create(
+                    address=mint_request.recipient
+                )
+                if created:
+                    print(f"Created user with address {owner.address}")
+                Character.objects.create(kind=mint_request.kind,
+                                         contract_token_id=nft_id,
+                                         owner=owner,
+                                         price=mint_request.price,
+                                         valley=self.valley
+                                         )
+                print(f"Created character on valley {self.valley.name}")
             mint_request.save()

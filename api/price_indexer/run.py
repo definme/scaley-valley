@@ -13,8 +13,8 @@ INDEXER_INTERVAL = int(os.environ["INDEXER_INTERVAL"])
 
 
 def main():
-    from purchase_indexer.main import PurchaseIndexer
-    indexer = PurchaseIndexer(INDEXER_INTERVAL)
+    from price_indexer.main import PriceIndexer
+    indexer = PriceIndexer(INDEXER_INTERVAL)
     indexer.start()
 
 
