@@ -10,11 +10,12 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "api.settings")
 django.setup()
 
 INDEXER_INTERVAL = int(os.environ["INDEXER_INTERVAL"])
+PRICE_MANAGER_PRIVATE_KEY = str(os.environ["PRICE_MANAGER_PRIVATE_KEY"])
 
 
 def main():
-    from purchase_indexer.main import PurchaseIndexer
-    indexer = PurchaseIndexer(INDEXER_INTERVAL)
+    from price_controller.main import PriceController
+    indexer = PriceController(INDEXER_INTERVAL, PRICE_MANAGER_PRIVATE_KEY)
     indexer.start()
 
 

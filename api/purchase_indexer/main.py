@@ -8,7 +8,7 @@ from scaley_valley.models import Resource, NFTMintRequest, StatusChoices, Kind
 from web3._utils.events import get_event_data
 
 
-class Indexer:
+class PurchaseIndexer:
     resource_token_abi: List[Dict]
     trade_contract_abi: List[Dict]
     indexer_interval: int
@@ -28,10 +28,11 @@ class Indexer:
 
     def __cycle_body(self):
         for resource in Resource.objects.all():
-            print(f"Fetching events on resource {resource.name} on chain {resource.chain.name}")
-            chain = resource.chain
+            print(f"Fetching events on resource {resource.name} on chain {resource.spend_resource_chain.name}")
+            chain = resource.spend_resource_chain
             w3 = Web3(Web3.HTTPProvider(chain.rpc_url))
-            resource_token = w3.eth.contract(address=resource.resource_token_address, abi=self.resource_token_abi)
+            resource_token = w3.eth.contract(address=resource.spendable_resource_token_address,
+                                             abi=self.resource_token_abi)
             trade_contract = w3.eth.contract(address=resource.trade_contract_address, abi=self.trade_contract_abi)
             start_block = chain.last_indexed_block
             last_block_in_chain = w3.eth.get_block("latest")["number"]
@@ -53,8 +54,12 @@ class Indexer:
                 topics = event["topics"]
                 if len(topics) != 3:
                     print(f"Event #{index} skipped: bad topics length {len(topics)}")
-                transfer_from = w3.to_checksum_address(hex(int(topics[1].hex(), base=16)))
-                transfer_to = w3.to_checksum_address(hex(int(topics[2].hex(), base=16)))
+                try:
+                    transfer_from = w3.to_checksum_address(hex(int(topics[1].hex(), base=16)))
+                    transfer_to = w3.to_checksum_address(hex(int(topics[2].hex(), base=16)))
+                except Exception as e:
+                    print(f"Event #{index} skipped: bad topics ({e})")
+                    continue
                 if transfer_to != w3.to_checksum_address(trade_contract.address):
                     print(f"Event #{index} skipped: recipient is not {trade_contract.address}")
                     continue
@@ -75,5 +80,5 @@ class Indexer:
                     status=StatusChoices.NEW
                 )
                 print(f"Created Mint request {mint_request}")
-            resource.chain.last_indexed_block = to_block
-            resource.chain.save()
+            resource.spend_resource_chain.last_indexed_block = to_block
+            resource.spend_resource_chain.save()

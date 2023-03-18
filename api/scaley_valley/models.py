@@ -103,13 +103,16 @@ class Chain(Model):
 
 class Resource(Model):
     name = CharField(max_length=255)
-    chain = ForeignKey(Chain, related_name='resource_chain', on_delete=CASCADE)
-    resource_token_address = CharField(max_length=42)
+    spend_resource_chain = ForeignKey(Chain, related_name='resource_chain', on_delete=CASCADE)
+    buy_resource_chain = ForeignKey(Chain, related_name='buy_resource_chain', on_delete=CASCADE, null=True, blank=True)
+    spendable_resource_token_address = CharField(max_length=42)
+    buyable_resource_token_address = CharField(max_length=42, null=True, blank=True)
     trade_contract_address = CharField(max_length=42)
     resource_token_name = CharField(max_length=5)
     image_uri = CharField(max_length=255)
     creation_time = DateTimeField(auto_now_add=True)
     last_update = DateTimeField(auto_now=True)
+    price = DecimalField(max_digits=256, decimal_places=0, default=0)
 
     def __str__(self):
         return f'{self.name}({self.resource_token_name})'

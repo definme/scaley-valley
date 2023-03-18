@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Resource, Chain, Kind, Valley, Character
+from .models import User, Resource, Chain, Kind, Valley, Character, NFTMintRequest
 
 
 class CharacterInLine(admin.TabularInline):
@@ -40,3 +40,8 @@ class CharacterAdmin(admin.ModelAdmin):
     list_display = ('contract_token_id', 'owner',
                     'price', 'valley', 'creation_time', 'last_update')
     search_fields = ('kind__name', 'contract_token_id', 'owner', 'valley__name')
+
+
+@admin.register(NFTMintRequest)
+class NFTMintRequestAdmin(admin.ModelAdmin):
+    list_display = ("kind", "mint_tx_hash")
