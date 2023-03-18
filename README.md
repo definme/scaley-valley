@@ -55,4 +55,7 @@ The goal of scaley-valley is to offer users access to cross-chain game content, 
 ## Cotracts addresses
 |      Cintract name     |     Network     |  Address  |
 | ---------------------- | --------------- | --------- |
-| ScaleyWalleyCollection |     Goerly      | [0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f](https://goerli.etherscan.io/address/0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f)|
+| ScaleyWalleyCollection |     Goerli      | [0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f](https://goerli.etherscan.io/address/0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f)|
+| Hyperlane Warp Router  |     Goerli      | [0xB79B7f3447c56d0Ca88fB8A20207D03C4C909d27](https://goerli.etherscan.io/address/0xB79B7f3447c56d0Ca88fB8A20207D03C4C909d27)|
+| Hyperlane Warp Router  | Optimism Goerli | [0xB912A3a43ab1258751b72b16ea5910E2Bf0F68C8](https://goerli-optimism.etherscan.io/address/0xB912A3a43ab1258751b72b16ea5910E2Bf0F68C8)|
+| Hyperlane Warp Router  | Polygon Mumbai  | [0x3761D98fC5bF5410ACc07261cDA5ae2aABF2Ce04](https://mumbai.polygonscan.com/address/0x3761D98fC5bF5410ACc07261cDA5ae2aABF2Ce04)|

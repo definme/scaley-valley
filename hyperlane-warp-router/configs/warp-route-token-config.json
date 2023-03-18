@@ -1,0 +1,27 @@
+{
+  "goerli": {
+    "type": "collateral",
+    "token": "0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f",
+    "owner": "0x22E837C1E3380e8f38758C8490d9865433bF3ad5",
+    "mailbox": "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
+    "interchainGasPaymaster": "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a"
+  },
+  "optimismgoerli": {
+    "type": "synthetic",
+    "name": "ScaleyValleyCollection Optimism",
+    "symbol": "SVCO",
+    "totalSupply": 0,
+    "owner": "0x22E837C1E3380e8f38758C8490d9865433bF3ad5",
+    "mailbox": "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
+    "interchainGasPaymaster": "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a"
+  },
+  "mumbai": {
+    "type": "synthetic",
+    "name": "ScaleyValleyCollection Mumbai",
+    "symbol": "SVCM",
+    "totalSupply": 0,
+    "owner": "0x22E837C1E3380e8f38758C8490d9865433bF3ad5",
+    "mailbox": "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
+    "interchainGasPaymaster": "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a"
+  }
+}

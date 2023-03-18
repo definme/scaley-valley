@@ -1,0 +1,62 @@
+{
+  "goerli": {
+    "chainId": 5,
+    "name": "goerli",
+    "displayName": "Goerli",
+    "nativeToken": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "publicRpcUrls": [{ "http": "https://eth-goerli.g.alchemy.com/v2/iOOVCuKnuO-PXaQ5mTR1FbD86i8qAXoS/" }],
+    "blockExplorers": [
+      {
+        "name": "Goerliscan",
+        "url": "https://goerli.etherscan.io",
+        "apiUrl": "https://api-goerli.etherscan.io",
+        "family": "etherscan"
+      }
+    ],
+    "blocks": {
+      "confirmations": 1,
+      "reorgPeriod": 2,
+      "estimateBlockTime": 13
+    }
+  },
+  "mumbai": {
+    "chainId": 80001,
+    "name": "mumbai",
+    "displayName": "Mumbai",
+    "nativeToken": { "name": "MATIC", "symbol": "MATIC", "decimals": 18 },
+    "publicRpcUrls": [{ "http": "https://matic-mumbai.chainstacklabs.com/" }],
+    "blockExplorers": [
+      {
+        "name": "mumbai polygonscan",
+        "url": "https://mumbai.polygonscan.com",
+        "apiUrl": "https://api-mumbai.polygonscan.com",
+        "family": "etherscan"
+      }
+    ],
+    "blocks": {
+      "confirmations": 1,
+      "reorgPeriod": 2,
+      "estimateBlockTime": 13
+    }
+  },
+  "optimismgoerli": {
+    "chainId": 420,
+    "name": "optimismgoerli",
+    "displayName": "Optimismgoerli",
+    "nativeToken": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "publicRpcUrls": [{ "http": "https://opt-goerli.g.alchemy.com/v2/IfPBZ1nhZsdAUUWpAWNEooPuL98vYHSD/" }],
+    "blockExplorers": [
+      {
+        "name": "Optimism Goerliscan",
+        "url": "https://goerli-optimism.etherscan.io",
+        "apiUrl": "https://api-goerli-optimism.etherscan.io",
+        "family": "etherscan"
+      }
+    ],
+    "blocks": {
+      "confirmations": 1,
+      "reorgPeriod": 2,
+      "estimateBlockTime": 13
+    }
+  }
+}
