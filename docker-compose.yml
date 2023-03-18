@@ -39,6 +39,22 @@ services:
     restart: on-failure
     depends_on:
       - api_db
+    command: "/bin/sh ./entrypoint_api.sh"
+
+  purchase_indexer:
+    image: api
+    build: ./api/
+    environment:
+      DB_HOST: '${DB_HOST}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_USER: '${DB_USER}'
+      DB_NAME: '${DB_NAME}'
+      SECRET_KEY: '${SECRET_KEY}'
+      INDEXER_INTERVAL: 1
+    restart: on-failure
+    depends_on:
+      - api
+    command: "/bin/sh ./entrypoint_purchase_indexer.sh"
 
 volumes:
   static:

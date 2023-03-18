@@ -158,9 +158,9 @@ class Character(Model):
 
 class StatusChoices(TextChoices):
     NEW = ("NEW", _("New"))
-    SENT = ("SENT", _("Sent"))
     SUCCESS = ("SUCCESS", _("Success"))
     FAIL = ("FAIL", _("Fail"))
+    APPLIED = ("APPLIED", _("Applied in TradeContract"))
 
 
 class NFTMintRequest(Model):
