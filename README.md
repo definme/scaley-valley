@@ -51,3 +51,8 @@ The goal of scaley-valley is to offer users access to cross-chain game content, 
 ![tg_image_423075292](https://user-images.githubusercontent.com/25884190/225343648-69e9fde2-60ea-4523-80b8-ebac27bcb780.jpeg)
 
 ![tg_image_1028392436](https://user-images.githubusercontent.com/25884190/225343746-e8d17115-5fe2-434c-959a-03a14618c6da.jpeg)
+
+## Cotracts addresses
+|      Cintract name     |     Network     |  Address  |
+| ---------------------- | --------------- | --------- |
+| ScaleyWalleyCollection |     Goerly      | [0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f](https://goerli.etherscan.io/address/0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f)|
