@@ -6,18 +6,18 @@
  *   - chain-config : (Optional) Path to chain config JSON file (see example in ./configs)
  * Example: yarn ts-node scripts/deploy.ts --private-key $PRIVATE_KEY --token-config ./configs/warp-route-token-config.json
  */
-import { ethers } from 'ethers';
+import { ContractFactory, ethers } from 'ethers';
 import fs from 'fs';
 import path from 'path';
+
 import yargs from 'yargs';
+
+const contractAbi = JSON.parse(fs.readFileSync("/Users/dmitry/PycharmProjects/EthScalling/scaley-valley/hyperlane-warp-router/scripts/abiERC721.json").toString());
 
 import {
   chainMetadata,
   MultiProvider,
-  serializeContracts,
 } from '@hyperlane-xyz/sdk';
-
-import { HypERC721Deployer } from '../src/deploy';
 
 async function deployWarpRoute() {
   const argv = await yargs
@@ -71,15 +71,23 @@ async function deployWarpRoute() {
   );
   multiProvider.setSharedSigner(signer)
 
-  console.log('Starting deployments');
-  const deployer = new HypERC721Deployer(multiProvider, tokenConfigs, undefined);
-  await deployer.deploy();
+  console.log('Bridge!');
 
-  console.log('Deployments successful. Deployed contracts:');
-  // @ts-ignore
-  console.log(serializeContracts(deployer.deployedContracts));
+  const tokenId = 4    
+
+  const factory = new ContractFactory(contractAbi, fs.readFileSync("/Users/dmitry/PycharmProjects/EthScalling/scaley-valley/hyperlane-warp-router/scripts/bytecode.txt"), multiProvider.getSigner(420));
+  const contract = factory.attach("0x3De4Af596Ff7c0946Cf611f6c440Ec7b7BB24c46");
+  const result = await contract.transferRemote(5,ethers.utils.hexZeroPad(signer.address, 32), tokenId, {value: ethers.utils.parseUnits("10000000", "gwei")});
+  console.log(result);
 }
 
 deployWarpRoute()
-  .then(() => console.log('Warp Route deployment done'))
-  .catch((e) => console.error('Warp Route deployment error:', e));
+  .then(() => console.log('Done!'))
+  .catch((e) => console.error('Error:', e));
+
+  // Warp Route
+  // 5 goerli: { router: '0x04F02C3D9C9190F0B66120e2945AF3740dBe485B' },
+  // 420 optimismgoerli: { router: '0x3De4Af596Ff7c0946Cf611f6c440Ec7b7BB24c46' },
+  // 80001 mumbai: { router: '0xbDC8B9860F0B78e342C1C6c4b3870b8bAf2d75aA' }
+
+  // yarn ts-node scripts/interact.ts --private-key {your privkey} --token-config ./configs/warp-route-token-config.json --chain-config ./configs/warp-route-chain-config.json
