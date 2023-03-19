@@ -19,6 +19,26 @@
       "estimateBlockTime": 13
     }
   },
+  "sepolia": {
+    "chainId": 11155111,
+    "name": "sepolia",
+    "displayName": "Sepolia",
+    "nativeToken": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "publicRpcUrls": [{ "http": "https://rpc.sepolia.org/" }],
+    "blockExplorers": [
+      {
+        "name": "Goerliscan",
+        "url": "https://sepolia.etherscan.io",
+        "apiUrl": "https://api-sepolia.etherscan.io",
+        "family": "etherscan"
+      }
+    ],
+    "blocks": {
+      "confirmations": 1,
+      "reorgPeriod": 2,
+      "estimateBlockTime": 13
+    }
+  },
   "mumbai": {
     "chainId": 80001,
     "name": "mumbai",
