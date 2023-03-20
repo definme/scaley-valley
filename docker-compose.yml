@@ -11,6 +11,10 @@ services:
     restart: on-failure
     depends_on:
       - api
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
 
   api_db:
     image: postgres
@@ -23,6 +27,10 @@ services:
     ports:
       - "5432:5432"
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
 
   api:
     image: api
@@ -40,6 +48,10 @@ services:
     depends_on:
       - api_db
     command: "/bin/sh ./entrypoint_api.sh"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
 
   purchase_indexer:
     image: api
@@ -55,6 +67,10 @@ services:
     depends_on:
       - api
     command: "/bin/sh ./entrypoint_purchase_indexer.sh"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
 
   price_indexer:
     image: api
@@ -70,6 +86,10 @@ services:
     depends_on:
       - api
     command: "/bin/sh ./entrypoint_price_indexer.sh"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
 
   mint_controller:
     image: api
@@ -88,6 +108,10 @@ services:
     depends_on:
       - api
     command: "/bin/sh ./entrypoint_mint_controller.sh"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
   
   valleys_indexer:
     image: api
@@ -103,6 +127,48 @@ services:
     depends_on:
       - api
     command: "/bin/sh ./entrypoint_valleys_indexer.sh"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
+  optimism_bridge_service:
+    image: optimism_bridge
+    build: ./optimism-bridge
+    environment:
+      RPC_URL_L1: '${RPC_URL_L1}'
+      RPC_URL_L2: '${RPC_URL_L2}'
+      BRIDGE_PRIVATE_KEY: '${BRIDGE_PRIVATE_KEY}'
+      TOKEN_ADDRESS_L1: '${TOKEN_ADDRESS_L1}'
+      TOKEN_ADDRESS_L2: '${TOKEN_ADDRESS_L2}'
+      CHAIN_ID_L1: '${CHAIN_ID_L1}'
+      CHAIN_ID_L2: '${CHAIN_ID_L2}'
+      MONGO_URL: '${MONGO_URL}'
+    command: "node bridge.js"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
+  optimism_bridge_api:
+    image: optimism_bridge
+    build: ./optimism-bridge
+    environment:
+      RPC_URL_L1: '${RPC_URL_L1}'
+      RPC_URL_L2: '${RPC_URL_L2}'
+      BRIDGE_PRIVATE_KEY: '${BRIDGE_PRIVATE_KEY}'
+      TOKEN_ADDRESS_L1: '${TOKEN_ADDRESS_L1}'
+      TOKEN_ADDRESS_L2: '${TOKEN_ADDRESS_L2}'
+      CHAIN_ID_L1: '${CHAIN_ID_L1}'
+      CHAIN_ID_L2: '${CHAIN_ID_L2}'
+      MONGO_URL: '${MONGO_URL}'
+    command: "node api.js"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
 
 volumes:
   static:
