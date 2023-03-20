@@ -1,6 +1,6 @@
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
-from .models import Resource, Chain, Kind, Valley, Character
+from .models import Resource, Chain, Kind, Valley, Character, NFTMintRequest
 
 
 class ChainSerializer(ModelSerializer):
@@ -56,3 +56,9 @@ class CharacterSerializer(ModelSerializer):
             'kind', 'contract_token_id', 'owner', 'price', 'level', 'agility', 'intellect',
             'valley', 'creation_time', 'last_update')
         model = Character
+
+
+class NFTMintRequestSerializer(ModelSerializer):
+    class Meta:
+        fields = ('kind', 'recipient', 'price', 'nft_id', 'mint_tx_hash', 'purchase_tx_hash', 'status')
+        model = NFTMintRequest

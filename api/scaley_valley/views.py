@@ -3,8 +3,9 @@ from rest_framework import permissions, viewsets, views, renderers
 from rest_framework.response import Response
 from django_filters import FilterSet, CharFilter, rest_framework
 
-from .serializer import ValleySerializer, ChainSerializer, ResourceSerializer, CharacterSerializer, KindSerializer
-from .models import Resource, Chain, Kind, Valley, Character
+from .serializer import ValleySerializer, ChainSerializer, ResourceSerializer, CharacterSerializer, KindSerializer, \
+    NFTMintRequestSerializer
+from .models import Resource, Chain, Kind, Valley, Character, NFTMintRequest
 
 
 class ChainViewSet(viewsets.ModelViewSet):
@@ -36,6 +37,17 @@ class CharacterViewSet(viewsets.ModelViewSet):
     serializer_class = CharacterSerializer
     filter_backends = [rest_framework.DjangoFilterBackend]
     filterset_class = CharacterFilter
+
+
+class NFTMintRequestFilter(FilterSet):
+    purchase_tx_hash = CharFilter(field_name='purchase_tx_hash')
+
+
+class NFTMintRequestViewSet(viewsets.ModelViewSet):
+    queryset = NFTMintRequest.objects.all()
+    serializer_class = NFTMintRequestSerializer
+    filter_backends = [rest_framework.DjangoFilterBackend]
+    filterset_class = NFTMintRequestFilter
 
 
 class MetadataView(views.APIView):
