@@ -26,7 +26,7 @@ function CustomCard({kind, description, price}){
                 }}>
                     <Box>
                         <Typography variant="caption" color="#616572">Price</Typography>
-                        <Typography color="white" fontWeight="bold">{price} {kind.payment_resource.resource_token_name}</Typography>
+                        <Typography color="white" fontWeight="bold">{price} {kind.payment_resource?.resource_token_name}</Typography>
                     </Box>
                     <button className="card__inner-btn">BUY</button>
                 </Box>
