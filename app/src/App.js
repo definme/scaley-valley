@@ -7,7 +7,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Header from './components/Header'
 import { BuyCharacter, BuyResource, ExploreValleys, MyTokens } from './pages'
-import { getERC20Recource } from './api/contracts'
+import { getERC20RecourceWithProvider } from './api/contracts'
 import { ConnectionContext } from './contexts/ConnectionContext'
 
 function a11yProps(index) {
@@ -44,11 +44,34 @@ function App() {
   }
 
   async function getWoodBalance() {
-    const zksyncERC20 = await getERC20Recource('280')
+    const zksyncERC20 = await getERC20RecourceWithProvider('280')
     zksyncERC20
       .balanceOf(userAddress)
       .then(res => {
         const wood = Number(utils.formatEther(res))
+        console.log('Wood:', wood)
+      })
+      .catch(e => console.log(e))
+  }
+
+  async function getOpticBalance() {
+    const optiERC20 = await getERC20RecourceWithProvider('420')
+    optiERC20
+      .balanceOf(userAddress)
+      .then(res => {
+        const optic = Number(utils.formatEther(res))
+        console.log('Optic:', optic)
+      })
+      .catch(e => console.log(e))
+  }
+
+  async function getMainnetERC20Balance() {
+    const mainERC20 = await getERC20RecourceWithProvider('5')
+    mainERC20
+      .balanceOf(userAddress)
+      .then(res => {
+        const main = Number(utils.formatEther(res))
+        console.log('Mainnet:', main)
       })
       .catch(e => console.log(e))
   }
@@ -73,8 +96,12 @@ function App() {
   }, [location])
 
   useEffect(() => {
-    if (userAddress && chainId) getWoodBalance()
-  }, [userAddress, chainId])
+    if (userAddress) {
+      getWoodBalance()
+      getOpticBalance()
+      getMainnetERC20Balance()
+    }
+  }, [userAddress])
 
   return (
     <>

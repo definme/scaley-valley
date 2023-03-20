@@ -5,28 +5,52 @@ import TextField from '@mui/material/TextField'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import { getERC20Recource } from '../../api/contracts'
+import {
+  getERC20RecourceWithProvider,
+  getERC20RecourceWithSigner,
+} from '../../api/contracts'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
+import { shortenAddress } from '../../utils'
 
-function ResourceCard({ name, resource_token_name, chain, image_uri }) {
-  const { userAddress } = useContext(ConnectionContext)
+function ResourceCard({
+  name,
+  resource_token_name,
+  spend_resource_chain,
+  image_uri,
+}) {
+  const { userAddress, chainId } = useContext(ConnectionContext)
   const [price, setPrice] = useState(0)
+  const [txHash, setTxHash] = useState()
+  const [success, setSuccess] = useState()
   const [amount, setAmount] = useState('1')
 
   async function getResourceNativePrice() {
-    const resourceERC20 = await getERC20Recource('5')
+    const resourceERC20 = await getERC20RecourceWithProvider('5')
     resourceERC20
       .getRequiredNativeCurrencyToBuy(utils.parseEther(amount))
       .then(res => {
-        setPrice(Number(utils.formatEther(res)))
+        setPrice(res)
       })
       .catch(e => console.log(e))
   }
 
   function handleAmount(e) {
-    console.log(e)
     setAmount(e.target.value)
+  }
+
+  async function handleBuy() {
+    const resourceERC20 = await getERC20RecourceWithSigner(chainId)
+    console.log(utils.parseEther(amount), price)
+    resourceERC20
+      .buy(utils.parseEther(amount), { value: price })
+      .then(tx => {
+        setTxHash(tx.hash)
+        tx.wait()
+          .then(() => setSuccess('SUCCESS!!'))
+          .catch(() => setSuccess('FAILED'))
+      })
+      .catch(e => console.log(e))
   }
 
   useEffect(() => {
@@ -54,7 +78,7 @@ function ResourceCard({ name, resource_token_name, chain, image_uri }) {
           mb: '20px',
         }}
       >
-        <Avatar src={chain.image_uri} alt='chain'></Avatar>
+        <Avatar src={spend_resource_chain.image_uri} alt='chain'></Avatar>
         <Typography align='center' textTransform='uppercase'>
           {resource_token_name}
         </Typography>
@@ -73,7 +97,8 @@ function ResourceCard({ name, resource_token_name, chain, image_uri }) {
         </Typography>
         <Typography>Chain: {name}</Typography>
         <Typography variant='h6' gutterBottom sx={{ fontWeight: '700' }}>
-          Price: {price} {networks[chain.chain_id].params.nativeCurrency.symbol}
+          Price: {Number(utils.formatEther(price))}{' '}
+          {networks[spend_resource_chain.chain_id].params.nativeCurrency.symbol}
         </Typography>
         <Box
           sx={{
@@ -97,16 +122,34 @@ function ResourceCard({ name, resource_token_name, chain, image_uri }) {
             onChange={handleAmount}
           />
         </Box>
-
-        <Button
-          variant='contained'
-          sx={{
-            fontWeight: 'bold',
-            width: '100%',
-          }}
-        >
-          BUY
-        </Button>
+        {txHash ? (
+          <Button
+            variant='contained'
+            sx={{
+              fontWeight: 'bold',
+              width: '100%',
+            }}
+          >
+            <a
+              href={`${networks[chainId].params.blockExplorerUrls}tx/${txHash}`}
+              target='_blank'
+            >
+              {success ? success : txHash && shortenAddress(txHash)}
+            </a>
+          </Button>
+        ) : (
+          <Button
+            variant='contained'
+            sx={{
+              fontWeight: 'bold',
+              width: '100%',
+            }}
+            disabled={chainId !== '5'}
+            onClick={handleBuy}
+          >
+            BUY
+          </Button>
+        )}
       </Box>
     </Box>
   )
