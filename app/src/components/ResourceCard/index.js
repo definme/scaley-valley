@@ -26,7 +26,12 @@ function ResourceCard({
   const [amount, setAmount] = useState('1')
 
   async function getResourceNativePrice() {
-    const resourceERC20 = await getERC20RecourceWithProvider('5')
+    let resourceERC20
+    if (spend_resource_chain.chain_id.toString() === '280') {
+      resourceERC20 = await getERC20RecourceWithProvider('280')
+    } else {
+      resourceERC20 = await getERC20RecourceWithProvider('5')
+    }
     resourceERC20
       .getRequiredNativeCurrencyToBuy(utils.parseEther(amount))
       .then(res => {
@@ -41,7 +46,7 @@ function ResourceCard({
 
   async function handleBuy() {
     const resourceERC20 = await getERC20RecourceWithSigner(chainId)
-    console.log(utils.parseEther(amount), price)
+
     resourceERC20
       .buy(utils.parseEther(amount), { value: price })
       .then(tx => {
@@ -144,7 +149,10 @@ function ResourceCard({
               fontWeight: 'bold',
               width: '100%',
             }}
-            disabled={chainId !== '5'}
+            disabled={
+              (spend_resource_chain.chain_id !== 280 && chainId !== '5') ||
+              (spend_resource_chain.chain_id === 280 && chainId !== '280')
+            }
             onClick={handleBuy}
           >
             BUY

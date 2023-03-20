@@ -32,7 +32,8 @@
       "blockExplorerUrls": ["https://zksync2-testnet.zkscan.io/"]
     },
     "contracts": {
-      "erc20resource": "0x0fa56F22b437cD6D157BBAF429f82969f8f351e1"
+      "erc20resource": "0x0fa56F22b437cD6D157BBAF429f82969f8f351e1",
+      "trade": "0x81dacf75Ecd37d706e47AbFfF69a1E9542caD0C4"
     }
   },
   "420": {
@@ -50,7 +51,8 @@
       "blockExplorerUrls": ["https://goerli-explorer.optimism.io/"]
     },
     "contracts": {
-      "erc20resource": "0xcb3D2498E189f4D0C5e3cDaBc96ad4469f5478d3"
+      "erc20resource": "0xcb3D2498E189f4D0C5e3cDaBc96ad4469f5478d3",
+      "trade": "0x7C173495a24DF0577D85f5B2d3c89a5f05f515a1"
     }
   },
   "1422": {
