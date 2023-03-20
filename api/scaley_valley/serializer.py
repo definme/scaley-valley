@@ -21,11 +21,13 @@ class ValleySerializer(ModelSerializer):
 
 
 class ResourceSerializer(ModelSerializer):
-    chain = ChainSerializer(many=False, read_only=True)
+    spend_resource_chain = ChainSerializer(many=False, read_only=True)
+    buy_resource_chain = ChainSerializer(many=False, read_only=True)
 
     class Meta:
         fields = (
-            'name', 'price', 'chain', 'resource_token_address', 'trade_contract_address', 'resource_token_name', 'image_uri')
+            'name', 'price', 'spend_resource_chain', 'buy_resource_chain', 'spendable_resource_token_address', 'buyable_resource_token_address',
+            'trade_contract_address', 'resource_token_name', 'image_uri')
         model = Resource
 
 
