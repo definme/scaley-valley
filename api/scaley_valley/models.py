@@ -123,6 +123,8 @@ class Valley(Model):
     chain = ForeignKey(Chain, related_name='valley_chain', on_delete=CASCADE)
     image_uri = CharField(max_length=255)
     description = TextField(blank=True, null=True)
+    collection_address = CharField(max_length=42, blank=True, null=True)
+    collateral_address = CharField(max_length=42, blank=True, null=True)
     creation_time = DateTimeField(auto_now_add=True)
     last_update = DateTimeField(auto_now=True)
 
