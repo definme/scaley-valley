@@ -2,18 +2,23 @@ import Typography from '@mui/material/Typography'
 import Box from "@mui/material/Box";
 import Resource from "../../components/Resource";
 import TokenCard from "../../components/TokenCard";
-import {useEffect, useState} from "react";
-import { getTokens} from "../../api";
+import React, {useEffect, useState} from "react";
+import {getTokens} from "../../api";
+import {ConnectionContext} from "../../contexts/ConnectionContext";
 
 function MyTokens() {
     const [tokens, setTokens] = useState([]);
 
+    const { userAddress } = React.useContext(ConnectionContext);
+
     function getAllTokens() {
-        getTokens("0x5fCb8f7149E8aD03544157C90E6f81b26933d3a2")
-            .then(res => {
-                setTokens(res)
-            })
-            .catch(e => console.log(e))
+        if(userAddress){
+            getTokens(userAddress)
+                .then(res => {
+                    setTokens(res)
+                })
+                .catch(e => console.log(e))
+        }
     }
 
     useEffect(() => {
