@@ -59,10 +59,15 @@ function CustomCard({ kind, description, price }) {
           align='center'
           sx={{
             color: 'white',
-            fontSize: '20px',
+            fontSize: '24px',
             borderBottom: ' 1px solid #49494B',
             paddingBottom: '8px',
             marginBottom: '10px',
+            fontStyle: 'normal',
+            fontWeight: '700',
+            lineHeight: '29px',
+            letterSpacing: '0.01em',
+            fontFamily: "'Inter', sans-serif"
           }}
         >
           {kind.name}
@@ -75,10 +80,14 @@ function CustomCard({ kind, description, price }) {
           }}
         >
           <Box>
-            <Typography variant='caption' color='#616572'>
+            <Typography variant='caption' color='#616572' sx={{
+                fontFamily: "'Inter', sans-serif"
+            }}>
               Price
             </Typography>
-            <Typography color='white' fontWeight='bold'>
+            <Typography color='white' fontWeight='bold' sx={{
+                fontFamily: "'Inter', sans-serif"
+            }}>
               {contractPrice ? Number(utils.formatEther(contractPrice)) : price}{' '}
               {kind.payment_resource?.resource_token_name}
             </Typography>

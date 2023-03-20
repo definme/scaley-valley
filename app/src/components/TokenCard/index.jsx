@@ -21,7 +21,7 @@ function TokenCard({kind}){
                     borderBottom: " 1px solid #49494B",
                     paddingBottom: "8px",
                     marginBottom: "10px"
-                }}>Illuminator</Typography>
+                }}>{kind.name}</Typography>
                 <Box>
                     <Box>
                         <Typography variant="caption" color="#616572">Attributes:</Typography>

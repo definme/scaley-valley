@@ -118,7 +118,9 @@ function App() {
       {/*    <Tab label='My Tokens' {...a11yProps(2)} />*/}
       {/*  </Tabs>*/}
       {/*</Box>*/}
-      <Container>
+      <Container sx={{
+        marginTop: "100px"
+      }}>
         <Box sx={{ my: 4 }}>
           <Routes>
             <Route exact path='/' element={<BuyCharacter />} />
