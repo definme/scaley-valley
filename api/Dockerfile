@@ -10,8 +10,10 @@ ADD purchase_indexer ./purchase_indexer
 ADD price_indexer ./price_indexer
 ADD mint_controller ./mint_controller
 ADD scaley_valley ./scaley_valley
+ADD valleys_indexer ./valleys_indexer
 ADD entrypoint_api.sh ./entrypoint_api.sh
 ADD entrypoint_purchase_indexer.sh ./entrypoint_purchase_indexer.sh
 ADD entrypoint_price_indexer.sh ./entrypoint_price_indexer.sh
 ADD entrypoint_mint_controller.sh ./entrypoint_mint_controller.sh
+ADD entrypoint_valleys_indexer.sh ./entrypoint_valleys_indexer.sh
 ADD manage.py ./manage.py
