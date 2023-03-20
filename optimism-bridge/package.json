@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@eth-optimism/contracts-bedrock": "^0.13.1",
+    "@eth-optimism/sdk": "^2.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "5.1"
+  }
+}
