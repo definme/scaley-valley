@@ -5,14 +5,21 @@
     position: relative;
     overflow: hidden;
 }
-.card__img{
-    width: 100%;
-    position: relative;
+.chain__img, .card__img{
     -webkit-transition: .4s -webkit-filter ease;
     -moz-transition: .4s -moz-filter ease;
     -ms-transition: .4s -ms-filter ease;
     -o-transition: .4s -o-filter ease;
     transition: .4s filter ease, .4s -webkit-filter ease;
+}
+.card__img{
+    width: 100%;
+    position: relative;
+}
+.chain__img{
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 .description{
     cursor: default;
@@ -38,7 +45,7 @@
 .card:hover .description__text{
     transform: translateY(-50%);
 }
-.card:hover .card__img{
+.card:hover .card__img, .card:hover .chain__img{
     filter: brightness(0.4);
 }
 .card__inner{
