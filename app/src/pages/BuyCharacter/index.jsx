@@ -23,7 +23,7 @@ function BuyCharacter() {
           width: "100%",
           display: "flex",
           flexWrap: "wrap",
-          gap: "10px"
+          justifyContent: "space-between"
       }}>
           {characters.map((character,index) => (
               <CustomCard
