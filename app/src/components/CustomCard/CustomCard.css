@@ -1,9 +1,9 @@
-
 .card{
     width: 276px;
     background-color: #1B1C1E;
     position: relative;
     overflow: hidden;
+    font-family: 'Inter', sans-serif;
 }
 .chain__img, .card__img{
     -webkit-transition: .4s -webkit-filter ease;
@@ -48,11 +48,13 @@
 .card:hover .card__img, .card:hover .chain__img{
     filter: brightness(0.4);
 }
+
 .card__inner{
     padding: 10px;
     position: relative;
     z-index: 3;
 }
+
 .card__inner-btn{
     font-weight: bold;
     width: 126px;
@@ -60,13 +62,16 @@
     border: 1px solid white;
     border-radius: 16px;
     background-color: white;
-    cursor: pointer;
+    cursor: default;
     transition: all 0.2s ease;
 }
-.card__inner-btn:hover{
+
+.card__inner-btn:hover:enabled{
     background-color: #518FEC;
     color: white;
+    cursor: pointer;
 }
-.card__inner-btn:active{
+.card__inner-btn:active:enabled{
     background-color: #6aa1f5;
+    cursor: pointer;
 }
