@@ -88,7 +88,7 @@ function CustomCard({ name, image_uri,payment_resource,contract_kind_id, descrip
             <Typography color='white' fontWeight='bold' sx={{
                 fontFamily: "'Inter', sans-serif"
             }}>
-              {contractPrice ? Number(utils.formatEther(contractPrice)) : price}{' '}
+              {contractPrice ? Number(utils.formatEther(contractPrice)) : Number(utils.formatEther(price))}{' '}
               {payment_resource?.resource_token_name}
             </Typography>
           </Box>
