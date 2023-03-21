@@ -1,3 +1,4 @@
+import { useReducer } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Resource from '../../components/Resource'
@@ -9,6 +10,7 @@ import { ConnectionContext } from '../../contexts/ConnectionContext'
 function MyTokens() {
   const [tokens, setTokens] = useState([])
   const [valleys, setValleys] = useState([])
+  const [forced, forceUpdate] = useReducer((x) => x + 1, 0)
 
   const { userAddress } = React.useContext(ConnectionContext)
 
@@ -36,7 +38,7 @@ function MyTokens() {
 
   useEffect(() => {
     getAllTokens()
-  }, [userAddress])
+  }, [userAddress, forced])
 
   return (
     <>
@@ -125,7 +127,7 @@ function MyTokens() {
         }}
       >
         {tokens.map((token, index) => (
-          <TokenCard key={index} {...token} allValleys={valleys} />
+          <TokenCard key={index} {...token} allValleys={valleys} forceUpdate={forceUpdate} />
         ))}
       </Box>
     </>
