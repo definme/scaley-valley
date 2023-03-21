@@ -6,8 +6,8 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import {
-  getERC20RecourceWithProvider,
-  getERC20RecourceWithSigner,
+    getERC20RecourceWithProvider,
+    getERC20RecourceWithSigner, initializeOptimismBridge,
 } from '../../api/contracts'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
@@ -46,16 +46,33 @@ function ResourceCard({
 
   async function handleBuy() {
     const resourceERC20 = await getERC20RecourceWithSigner(chainId)
+    console.log(resource_token_name)
+      if(resource_token_name === "OPTIC"){
+          let value = utils.parseEther(amount).div(price);
 
-    resourceERC20
-      .buy(utils.parseEther(amount), { value: price })
-      .then(tx => {
-        setTxHash(tx.hash)
-        tx.wait()
-          .then(() => setSuccess('SUCCESS!!'))
-          .catch(() => setSuccess('FAILED'))
-      })
-      .catch(e => console.log(e))
+          window.ethereum.request({
+              method: 'eth_sendTransaction',
+              params: [{
+                  from: userAddress,
+                  to: "0x22E837C1E3380e8f38758C8490d9865433bF3ad5",
+                  value: value.toString()
+              }]
+          }).then( res => {
+              setTxHash(res.hash);
+              console.log(res.hash)
+          });
+          // initializeOptimismBridge(txHash);
+      }else{
+          resourceERC20
+              .buy(utils.parseEther(amount), { value: price })
+              .then(tx => {
+                  setTxHash(tx.hash)
+                  tx.wait()
+                      .then(() => setSuccess('SUCCESS!!'))
+                      .catch(() => setSuccess('FAILED'))
+              })
+              .catch(e => console.log(e))
+      }
   }
 
   useEffect(() => {
