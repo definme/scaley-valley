@@ -22,6 +22,7 @@ export default function ChangeValleyModal({
   handleClose,
   allValleys,
   tokenId,
+  forceUpdate,
 }) {
   const { chainId } = useContext(ConnectionContext)
   return (
@@ -46,7 +47,13 @@ export default function ChangeValleyModal({
           {allValleys
             .filter(el => el.chain.toString() !== chainId)
             .map((valley, idx) => (
-              <Valley valley={valley} key={idx} tokenId={tokenId} />
+              <Valley
+                valley={valley}
+                key={idx}
+                tokenId={tokenId}
+                forceUpdate={forceUpdate}
+                handleClose={handleClose}
+              />
             ))}
         </Box>
       </Box>

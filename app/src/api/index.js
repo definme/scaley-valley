@@ -76,6 +76,25 @@ export async function getTokens(owner) {
     })
 }
 
+export async function getTokenById(id) {
+  return await fetch(`${API_HOST}/api/characters/?contract_token_id=${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (response.ok) {
+        return response
+      }
+      throw new Error(`Error: ${response.status}`)
+    })
+    .then(response => response.json())
+    .catch(err => {
+      throw new Error(err)
+    })
+}
+
 export async function getOptimismTx(tx) {
   return await fetch(`${API_HOST}/optimism/status?tx=${tx}`, {
     method: 'GET',

@@ -7,8 +7,9 @@ import { ConnectionContext } from '../../contexts/ConnectionContext'
 import { getERC721WithSigner } from '../../api/contracts'
 import networks from '../../networks.json'
 import { shortenAddress } from '../../utils'
+import { getTokenById } from '../../api'
 
-export default function Valley({ valley, tokenId }) {
+export default function Valley({ valley, tokenId, forceUpdate, handleClose }) {
   const { userAddress, chainId } = useContext(ConnectionContext)
   const [txHash, setTxHash] = useState()
   const [success, setSuccess] = useState()
@@ -25,7 +26,22 @@ export default function Valley({ valley, tokenId }) {
       .then(tx => {
         setTxHash(tx.hash)
         tx.wait()
-          .then(() => setSuccess('SUCCESS!!'))
+          .then(() => {
+            setTimeout(function testTx() {
+              getTokenById(tokenId)
+                .then(res => {
+                  if (res[0].valley.name === valley.name) {
+                    forceUpdate()
+                    handleClose()
+                  } else {
+                    setTimeout(testTx, 5000)
+                  }
+                })
+                .catch(e => {
+                  console.log(e)
+                })
+            }, 1000)
+          })
           .catch(() => setSuccess('FAILED'))
       })
       .catch(e => console.log(e))
