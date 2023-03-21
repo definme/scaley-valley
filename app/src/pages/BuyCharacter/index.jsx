@@ -65,7 +65,7 @@ function BuyCharacter() {
                     Consequatur dignissimos dolore dolorem, earum eum ipsa laboriosam,
                     modi neque, odit quibusdam quis voluptatem voluptates?
                     Accusamus aperiam commodi pariatur quos temporibus? Illum."
-                        // price="100"
+                        price="0"
                         {...character}
                     />
                 ))}

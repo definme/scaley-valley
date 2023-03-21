@@ -11,7 +11,7 @@ import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
 import { shortenAddress } from '../../utils'
 
-function CustomCard({ kind, description, price }) {
+function CustomCard({ name, image_uri,payment_resource,contract_kind_id, description, price }) {
   const { userAddress, chainId } = useContext(ConnectionContext)
   const [contractPrice, setContractPrice] = useState()
   const [txHash, setTxHash] = useState()
@@ -19,11 +19,11 @@ function CustomCard({ kind, description, price }) {
 
   async function getCharacterPrice() {
     const trade = await getTradeWithProvider(
-      kind.payment_resource.spend_resource_chain.chain_id.toString()
+      payment_resource.spend_resource_chain.chain_id.toString()
     )
 
     trade
-      .getPrice(kind.contract_kind_id)
+      .getPrice(contract_kind_id)
       .then(res => {
         setContractPrice(res)
       })
@@ -50,7 +50,7 @@ function CustomCard({ kind, description, price }) {
 
   return (
     <Box className='card'>
-      <img className='card__img' src={kind.image_uri} alt='character image' />
+      <img className='card__img' src={image_uri} alt='character image' />
       <Box className='description'>
         <div className='description__text'>{description}</div>
       </Box>
@@ -70,7 +70,7 @@ function CustomCard({ kind, description, price }) {
             fontFamily: "'Inter', sans-serif"
           }}
         >
-          {kind.name}
+          {name}
         </Typography>
         <Box
           sx={{
@@ -89,14 +89,14 @@ function CustomCard({ kind, description, price }) {
                 fontFamily: "'Inter', sans-serif"
             }}>
               {contractPrice ? Number(utils.formatEther(contractPrice)) : price}{' '}
-              {kind.payment_resource?.resource_token_name}
+              {payment_resource?.resource_token_name}
             </Typography>
           </Box>
           {txHash ? (
             <button
               className='card__inner-btn'
               disabled={
-                kind.payment_resource.spend_resource_chain.chain_id.toString() !==
+                payment_resource.spend_resource_chain.chain_id.toString() !==
                 chainId
               }
             >
@@ -111,7 +111,7 @@ function CustomCard({ kind, description, price }) {
             <button
               className='card__inner-btn'
               disabled={
-                kind.payment_resource.spend_resource_chain.chain_id.toString() !==
+                payment_resource.spend_resource_chain.chain_id.toString() !==
                 chainId
               }
               onClick={handleBuy}

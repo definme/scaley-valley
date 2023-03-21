@@ -39,7 +39,7 @@ export async function getResources() {
 }
 
 export async function getCharacters() {
-    return await fetch(`${API_HOST}/characters/`, {
+    return await fetch(`${API_HOST}/kinds/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
