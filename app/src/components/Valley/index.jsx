@@ -32,7 +32,7 @@ export default function Valley({ name, chain, description, image_uri }) {
           }}
         >
           <Avatar src={networks[chain].image} alt='chain'></Avatar>
-          <Typography variant='body1' component='h2'>
+          <Typography variant='body1' component='h2' color="white">
             {name}
           </Typography>
         </Box>
@@ -45,6 +45,7 @@ export default function Valley({ name, chain, description, image_uri }) {
           display: 'flex',
           flexDirection: 'column',
           gap: '10px',
+            color:"white"
         }}
       >
         <Typography variant='h6' component='h3'>
