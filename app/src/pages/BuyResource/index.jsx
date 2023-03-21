@@ -25,7 +25,7 @@ function BuyResource() {
         display: 'flex',
         flexWrap: 'wrap',
         gap: '20px',
-        alignItems: 'center',
+        alignItems: 'start',
         justifyContent: 'center',
         mt: '70px',
       }}

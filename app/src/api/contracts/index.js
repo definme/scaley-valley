@@ -72,16 +72,6 @@ export async function getTradeWithProvider(chainId) {
   return Trade
 }
 
-export async function initializeOptimismBridge(tx) {
-  fetch('https://api-scaley-valley.definme.com/optimism/bridge', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify({ tx }),
-  }).then(response => console.log(response.json()))
-}
-
 export async function getERC721WithSigner(chainId) {
   const provider = new ethers.providers.Web3Provider(window.ethereum)
   const signer = provider.getSigner()
