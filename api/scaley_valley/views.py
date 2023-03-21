@@ -36,7 +36,7 @@ class KindViewSet(viewsets.ModelViewSet):
 class CharacterFilter(FilterSet):
     owner = CharFilter(field_name='owner__address')
     contract_kind_id = CharFilter(field_name='kind__contract_kind_id')
-
+    contract_token_id = CharFilter(field_name='contract_token_id')
 
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()
@@ -99,6 +99,8 @@ class GnosisBridgeProcessView(views.APIView):
     def get(self, request: Request) -> HttpResponse:
         tx = request.query_params.get('tx')
         process = GnosisBridgeProcess.objects.filter(purchase_tx_hash=tx).first()
+        if not process:
+            return JsonResponse(data={"message": "Bad request"}, status=HTTP_400_BAD_REQUEST)
         return_data = model_to_dict(process)
         response = JsonResponse(data=return_data, status=HTTP_200_OK)
         return response
