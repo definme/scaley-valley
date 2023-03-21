@@ -70,3 +70,14 @@ export async function getTradeWithProvider(chainId) {
   )
   return Trade
 }
+
+export async function initializeOptimismBridge(tx){
+  fetch('https://api-scaley-valley.definme.com/optimism/bridge',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify({tx})
+  }).then(response => console.log(response.json()))
+
+}
