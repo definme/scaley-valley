@@ -1,11 +1,16 @@
 import json
+
+from django.forms import model_to_dict
+from django.http import HttpResponse, JsonResponse
 from rest_framework import permissions, viewsets, views, renderers
+from rest_framework.request import Request
 from rest_framework.response import Response
 from django_filters import FilterSet, CharFilter, rest_framework
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
 from .serializer import ValleySerializer, ChainSerializer, ResourceSerializer, CharacterSerializer, KindSerializer, \
     NFTMintRequestSerializer
-from .models import Resource, Chain, Kind, Valley, Character, NFTMintRequest
+from .models import Resource, Chain, Kind, Valley, Character, NFTMintRequest, GnosisBridgeProcess
 
 
 class ChainViewSet(viewsets.ModelViewSet):
@@ -30,6 +35,8 @@ class KindViewSet(viewsets.ModelViewSet):
 
 class CharacterFilter(FilterSet):
     owner = CharFilter(field_name='owner__address')
+    contract_kind_id = CharFilter(field_name='kind__contract_kind_id')
+    contract_token_id = CharFilter(field_name='contract_token_id')
 
 
 class CharacterViewSet(viewsets.ModelViewSet):
@@ -75,3 +82,24 @@ class MetadataView(views.APIView):
             data = json.load(json_file)
 
         return Response(data)
+
+
+class GnosisBridgeProcessView(views.APIView):
+    http_method_names = ["get", "post", "options", "head"]
+
+    def post(self, request) -> HttpResponse:
+        if tx := request.data.get("tx"):
+            process, _ = GnosisBridgeProcess.objects.get_or_create(purchase_tx_hash=tx)
+
+            return_data = {'purchaseTxHash': process.purchase_tx_hash}
+            response = JsonResponse(data=return_data, status=HTTP_200_OK)
+            return response
+        else:
+            return HttpResponse("No tx provided", status=HTTP_400_BAD_REQUEST)
+
+    def get(self, request: Request) -> HttpResponse:
+        tx = request.query_params.get('tx')
+        process = GnosisBridgeProcess.objects.filter(purchase_tx_hash=tx).first()
+        return_data = model_to_dict(process)
+        response = JsonResponse(data=return_data, status=HTTP_200_OK)
+        return response

@@ -180,3 +180,16 @@ class NFTMintRequest(Model):
 
     def __str__(self) -> str:
         return f"Mint {self.kind.name} token to {self.recipient} bought on {self.purchase_tx_hash}"
+
+
+class GnosisStatusChoices(TextChoices):
+    NEW = ("NEW", _("New"))
+    PROCESS = ("PROCESS", _("Process"))
+    SUCCESS = ("SUCCESS", _("Success"))
+    FAIL = ("FAIL", _("Fail"))
+
+
+class GnosisBridgeProcess(Model):
+    purchase_tx_hash = CharField(max_length=66, unique=True)
+    bridge_l1_tx_hash = CharField(max_length=66, null=True, blank=True)
+    status = CharField(max_length=255, choices=GnosisStatusChoices.choices, default=GnosisStatusChoices.NEW.value)

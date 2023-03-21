@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from scaley_valley.views import MetadataView
+from scaley_valley.views import MetadataView, GnosisBridgeProcessView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include("scaley_valley.urls")),
-    path('metadata/<str:contract_token_id>.json', MetadataView.as_view())
+    path('metadata/<str:contract_token_id>.json', MetadataView.as_view()),
+    path('metadata/<str:contract_token_id>.json', MetadataView.as_view()),
+    path('gnosis/bridge', GnosisBridgeProcessView.as_view()),
+    path('gnosis/bridge/', GnosisBridgeProcessView.as_view()),
+    path('gnosis/status/', GnosisBridgeProcessView.as_view()),
+    path('gnosis/status', GnosisBridgeProcessView.as_view()),
 ]

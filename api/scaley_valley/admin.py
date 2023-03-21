@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Resource, Chain, Kind, Valley, Character, NFTMintRequest
+from .models import User, Resource, Chain, Kind, Valley, Character, NFTMintRequest, GnosisBridgeProcess
 
 
 class CharacterInLine(admin.TabularInline):
@@ -44,4 +44,9 @@ class CharacterAdmin(admin.ModelAdmin):
 
 @admin.register(NFTMintRequest)
 class NFTMintRequestAdmin(admin.ModelAdmin):
-    list_display = ("kind", "mint_tx_hash")
+    list_display = ('kind', 'mint_tx_hash')
+
+
+@admin.register(GnosisBridgeProcess)
+class GnosisBridgeProcessAdmin(admin.ModelAdmin):
+    pass
