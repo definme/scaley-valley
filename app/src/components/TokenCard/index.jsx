@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar'
 import ChangeValleyModal from '../ChangeValleyModal'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 
-function TokenCard({ kind, valley, allValleys }) {
+function TokenCard({ kind, valley, allValleys, contract_token_id }) {
   const { chainId } = useContext(ConnectionContext)
   const [modalOpen, setModalOpen] = useState(false)
   const handleModalOpen = () => setModalOpen(true)
@@ -78,6 +78,7 @@ function TokenCard({ kind, valley, allValleys }) {
             open={modalOpen}
             handleClose={handleModalClose}
             allValleys={allValleys}
+            tokenId={contract_token_id}
           />
         </Box>
       </Box>

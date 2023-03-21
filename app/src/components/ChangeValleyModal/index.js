@@ -2,8 +2,8 @@ import { useContext } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
-import Button from '@mui/material/Button'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
+import Valley from './Valley'
 
 const style = {
   position: 'absolute',
@@ -17,7 +17,12 @@ const style = {
   p: 4,
 }
 
-export default function ChangeValleyModal({ open, handleClose, allValleys }) {
+export default function ChangeValleyModal({
+  open,
+  handleClose,
+  allValleys,
+  tokenId,
+}) {
   const { chainId } = useContext(ConnectionContext)
   return (
     <Modal
@@ -41,21 +46,7 @@ export default function ChangeValleyModal({ open, handleClose, allValleys }) {
           {allValleys
             .filter(el => el.chain.toString() !== chainId)
             .map((valley, idx) => (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '15px',
-                }}
-                key={idx}
-              >
-                <img src={valley.image_uri} width='100px' alt='valley' />
-                <Button>{valley.name}</Button>
-                <Typography variant='caption' display='block' gutterBottom>
-                  {valley.description}
-                </Typography>
-              </Box>
+              <Valley valley={valley} key={idx} tokenId={tokenId} />
             ))}
         </Box>
       </Box>
