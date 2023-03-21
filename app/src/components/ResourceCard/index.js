@@ -1,15 +1,38 @@
 import { useState, useContext } from 'react'
+import { styled } from '@mui/material/styles'
 import { utils } from 'ethers'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import { getERC20RecourceWithSigner } from '../../api/contracts'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
 import { shortenAddress } from '../../utils'
 import { getOptimismTx, initializeOptimismBridge } from '../../api'
+
+const ValidationTextField = styled(TextField)({
+  '& input': {
+    color: 'white',
+  },
+  '& label': {
+    color: 'white',
+  },
+  '& input + fieldset': {
+    borderColor: 'white',
+  },
+  '& label.Mui-focused': {
+    color: 'white',
+  },
+  '& .MuiOutlinedInput-root': {
+    '&.Mui-focused  fieldset': {
+      borderColor: 'white',
+    },
+
+    '&:hover  fieldset': {
+      borderColor: 'white',
+    },
+  },
+})
 
 function ResourceCard({
   name,
@@ -79,31 +102,14 @@ function ResourceCard({
   return (
     <Box
       sx={{
-        borderRadius: '20px',
         maxWidth: '268px',
-        boxShadow: '0px 0px 5px 0px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-          backgroundColor: 'white'
+        color: 'white',
       }}
     >
-      <Box
-        sx={{
-          p: '10px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          justifyContent: 'center',
-          mb: '20px',
-        }}
-      >
-        <Avatar src={spend_resource_chain.image_uri} alt='chain'></Avatar>
-        <Typography align='center' textTransform='uppercase'>
-          {resource_token_name}
-        </Typography>
-      </Box>
-      <img src={image_uri} alt='recource' width='50%' />
+      <img src={image_uri} alt='recource' width='100%' />
       <Box
         sx={{
           mt: '20px',
@@ -131,7 +137,7 @@ function ResourceCard({
           }}
         >
           <Typography>I need: </Typography>
-          <TextField
+          <ValidationTextField
             id='outlined-number'
             label='amount'
             type='number'
@@ -144,27 +150,18 @@ function ResourceCard({
           />
         </Box>
         {txHash ? (
-          <Button
-            variant='contained'
-            sx={{
-              fontWeight: 'bold',
-              width: '100%',
-            }}
-          >
+          <button className='card__inner-btn' style={{ width: '100%' }}>
             <a
               href={`${networks[chainId].params.blockExplorerUrls}tx/${txHash}`}
               target='_blank'
             >
               {success ? success : txHash && shortenAddress(txHash)}
             </a>
-          </Button>
+          </button>
         ) : (
-          <Button
-            variant='contained'
-            sx={{
-              fontWeight: 'bold',
-              width: '100%',
-            }}
+          <button
+            className='card__inner-btn'
+            style={{ width: '100%' }}
             disabled={
               (spend_resource_chain.chain_id !== 280 && chainId !== '5') ||
               (spend_resource_chain.chain_id === 280 && chainId !== '280')
@@ -172,7 +169,7 @@ function ResourceCard({
             onClick={handleBuy}
           >
             BUY
-          </Button>
+          </button>
         )}
         {txHash && !success && chainId !== '280' && (
           <Typography
