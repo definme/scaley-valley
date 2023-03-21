@@ -138,6 +138,7 @@ class Kind(Model):
     payment_resource = ForeignKey(Resource, related_name='kind', on_delete=SET_NULL, blank=True, null=True)
     image_uri = CharField(max_length=255)
     supply = DecimalField(max_digits=80, decimal_places=0, default=0, blank=True)
+    price = DecimalField(max_digits=256, decimal_places=0, blank=True, null=True)
     creation_time = DateTimeField(auto_now_add=True)
     last_update = DateTimeField(auto_now=True)
 
