@@ -88,6 +88,7 @@ function ResourceCard({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+          backgroundColor: 'white'
       }}
     >
       <Box
