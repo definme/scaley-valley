@@ -7,6 +7,7 @@ const providerL2 = new ethers.providers.JsonRpcProvider(process.env.RPC_URL_L2);
 const providerL1 = new ethers.providers.JsonRpcProvider(process.env.RPC_URL_L1);
 
 const bridgeWallet = new ethers.Wallet(process.env.BRIDGE_PRIVATE_KEY, providerL1);
+console.log(`Bridge administrator ${bridgeWallet.address}`);
 const contract = new ethers.Contract(process.env.TOKEN_ADDRESS_L1, abi, bridgeWallet);
 const messenger = new optimismSDK.CrossChainMessenger({
     l1ChainId: Number.parseInt(process.env.CHAIN_ID_L1),
@@ -24,6 +25,7 @@ function failBridge(newBridgeProcess) {
     bridgeProcesses.updateOne({
         _id: newBridgeProcess._id
     }, {$set: {"status": "FAIL"}}).catch(console.error);
+    process.exit(1);
 }
 
 function completeBridge(newBridgeProcess) {
@@ -35,6 +37,10 @@ function completeBridge(newBridgeProcess) {
             "bridgeL1TxHash": newBridgeProcess.bridgeL1TxHash,
             "allowanceL1TxHash": newBridgeProcess.allowanceL1TxHash,
         }
+    }).then(_ => {
+        console.log("Bridge status is set to completed");
+        console.log("Bridge completed");
+        process.exit(0);
     }).catch(console.error);
 }
 
@@ -42,8 +48,7 @@ async function processBridge(newBridgeProcess) {
     let tx;
     try {
         tx = await providerL1.getTransaction(newBridgeProcess.purchaseTxHash);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
         tx = null
     }

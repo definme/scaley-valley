@@ -34,7 +34,7 @@ class PriceIndexer:
             w3 = Web3(Web3.HTTPProvider(resource.buy_resource_chain.rpc_url))
             resource_token = w3.eth.contract(address=resource.buyable_resource_token_address,
                                              abi=self.resource_token_abi)
-            resource.price = resource_token.functions.getRequiredNativeCurrencyToBuy(BUY_AMOUNT).call()
+            resource.price = resource_token.functions.price().call()
             print(f"Price is {resource.price}")
             resource.save()
         # characters prices
