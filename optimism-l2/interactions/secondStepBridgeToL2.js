@@ -3,7 +3,7 @@ const setup = require("./setup.js");
 const {ethers} = require("ethers");
 require("dotenv").config();
 
-const bridgeAmount = ethers.utils.parseEther("500");
+const bridgeAmount = ethers.utils.parseEther("1");
 
 /*
 This is executed on L1 Ethereum chain

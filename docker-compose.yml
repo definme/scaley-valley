@@ -170,6 +170,28 @@ services:
       options:
         max-size: "50m"
 
+  gnosis_bridge_service:
+    image: api
+    build: ./api/
+    environment:
+      DB_HOST: '${DB_HOST}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_USER: '${DB_USER}'
+      DB_NAME: '${DB_NAME}'
+      SECRET_KEY: '${SECRET_KEY}'
+      INDEXER_INTERVAL: 1
+      GNOSIS_BRIDGE_PRIVATE_KEY: '${GNOSIS_BRIDGE_PRIVATE_KEY}'
+      GNOSIS_CHAIN_ID: '${GNOSIS_CHAIN_ID}'
+      ETHEREUM_CHAIN_ID: '${ETHEREUM_CHAIN_ID}'
+    restart: on-failure
+    depends_on:
+      - api
+    command: "/bin/sh ./entrypoint_gnosis_bridge.sh"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
 volumes:
   static:
   media:
