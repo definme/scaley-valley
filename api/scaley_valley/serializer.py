@@ -43,7 +43,7 @@ class KindSerializer(ModelSerializer):
     payment_resource = ResourceSerializer(many=False, read_only=True)
 
     class Meta:
-        fields = ('name', 'contract_kind_id', 'image_uri', 'payment_resource')
+        fields = ('name', 'contract_kind_id', 'image_uri', 'price', 'payment_resource')
         model = Kind
 
 
