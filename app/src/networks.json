@@ -54,7 +54,8 @@
     "contracts": {
       "erc20resource": "0xcb3D2498E189f4D0C5e3cDaBc96ad4469f5478d3",
       "trade": "0x7C173495a24DF0577D85f5B2d3c89a5f05f515a1",
-      "erc721": "0x3De4Af596Ff7c0946Cf611f6c440Ec7b7BB24c46"
+      "erc721": "0x3De4Af596Ff7c0946Cf611f6c440Ec7b7BB24c46",
+      "bridge": "0x22E837C1E3380e8f38758C8490d9865433bF3ad5"
     }
   },
   "1422": {

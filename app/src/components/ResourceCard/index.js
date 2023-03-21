@@ -1,44 +1,27 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { utils } from 'ethers'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import {
-    getERC20RecourceWithProvider,
-    getERC20RecourceWithSigner, initializeOptimismBridge,
-} from '../../api/contracts'
+import { getERC20RecourceWithSigner } from '../../api/contracts'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
 import { shortenAddress } from '../../utils'
+import { getOptimismTx, initializeOptimismBridge } from '../../api'
 
 function ResourceCard({
   name,
   resource_token_name,
   spend_resource_chain,
   image_uri,
+  price,
 }) {
   const { userAddress, chainId } = useContext(ConnectionContext)
-  const [price, setPrice] = useState(0)
   const [txHash, setTxHash] = useState()
   const [success, setSuccess] = useState()
-  const [amount, setAmount] = useState('1')
-
-  async function getResourceNativePrice() {
-    let resourceERC20
-    if (spend_resource_chain.chain_id.toString() === '280') {
-      resourceERC20 = await getERC20RecourceWithProvider('280')
-    } else {
-      resourceERC20 = await getERC20RecourceWithProvider('5')
-    }
-    resourceERC20
-      .getRequiredNativeCurrencyToBuy(utils.parseEther(amount))
-      .then(res => {
-        setPrice(res)
-      })
-      .catch(e => console.log(e))
-  }
+  const [amount, setAmount] = useState('100')
 
   function handleAmount(e) {
     setAmount(e.target.value)
@@ -46,38 +29,52 @@ function ResourceCard({
 
   async function handleBuy() {
     const resourceERC20 = await getERC20RecourceWithSigner(chainId)
-    console.log(resource_token_name)
-      if(resource_token_name === "OPTIC"){
-          let value = utils.parseEther(amount).div(price);
-
-          window.ethereum.request({
-              method: 'eth_sendTransaction',
-              params: [{
-                  from: userAddress,
-                  to: "0x22E837C1E3380e8f38758C8490d9865433bF3ad5",
-                  value: value.toString()
-              }]
-          }).then( res => {
-              setTxHash(res.hash);
-              console.log(res.hash)
-          });
-          // initializeOptimismBridge(txHash);
-      }else{
-          resourceERC20
-              .buy(utils.parseEther(amount), { value: price })
-              .then(tx => {
-                  setTxHash(tx.hash)
-                  tx.wait()
-                      .then(() => setSuccess('SUCCESS!!'))
-                      .catch(() => setSuccess('FAILED'))
-              })
-              .catch(e => console.log(e))
-      }
+    const value = utils.parseEther(amount).div(price)
+    if (resource_token_name === 'OPTIC') {
+      await window.ethereum
+        .request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: userAddress,
+              to: networks['420'].contracts.bridge,
+              value: value.toHexString(),
+            },
+          ],
+        })
+        .then(tx => {
+          setTxHash(tx)
+          initializeOptimismBridge(tx).then(() => {
+            setTimeout(function testTx() {
+              getOptimismTx(tx)
+                .then(res => {
+                  if (res.status === 'SUCCESS' || res.status === 'FAIL') {
+                    setSuccess(res.status)
+                  } else {
+                    setTimeout(testTx, 5000)
+                  }
+                })
+                .catch(e => {
+                  console.log(e)
+                })
+            }, 1000)
+          })
+        })
+        .catch(e => console.log(e))
+    } else {
+      resourceERC20
+        .buy(utils.parseEther(amount), {
+          value: value,
+        })
+        .then(tx => {
+          setTxHash(tx.hash)
+          tx.wait()
+            .then(() => setSuccess('SUCCESS!!'))
+            .catch(() => setSuccess('FAILED'))
+        })
+        .catch(e => console.log(e))
+    }
   }
-
-  useEffect(() => {
-    if (userAddress) getResourceNativePrice()
-  }, [userAddress, amount])
 
   return (
     <Box
@@ -120,7 +117,8 @@ function ResourceCard({
         </Typography>
         <Typography>Chain: {name}</Typography>
         <Typography variant='h6' gutterBottom sx={{ fontWeight: '700' }}>
-          Price: {Number(utils.formatEther(price))}{' '}
+          Price:{' '}
+          {utils.formatEther(utils.parseEther(amount).div(price)).toString()}{' '}
           {networks[spend_resource_chain.chain_id].params.nativeCurrency.symbol}
         </Typography>
         <Box
@@ -175,6 +173,20 @@ function ResourceCard({
           >
             BUY
           </Button>
+        )}
+        {txHash && !success && chainId !== '280' && (
+          <Typography
+            variant='body2'
+            gutterBottom
+            sx={{
+              maxWidth: '200px',
+              textAlign: 'center',
+              m: 'auto',
+              mt: '15px',
+            }}
+          >
+            Keep calm: the bridge can take about 5 minutes
+          </Typography>
         )}
       </Box>
     </Box>
