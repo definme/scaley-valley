@@ -3,14 +3,16 @@ import json
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from rest_framework import permissions, viewsets, views, renderers
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.request import Request
 from rest_framework.response import Response
 from django_filters import FilterSet, CharFilter, rest_framework
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
+from django.conf import settings
 
 from .serializer import ValleySerializer, ChainSerializer, ResourceSerializer, CharacterSerializer, KindSerializer, \
     NFTMintRequestSerializer
-from .models import Resource, Chain, Kind, Valley, Character, NFTMintRequest, GnosisBridgeProcess
+from .models import Resource, Chain, Kind, Valley, Character, NFTMintRequest, GnosisBridgeProcess, StatusChoices
 
 
 class ChainViewSet(viewsets.ModelViewSet):
@@ -48,6 +50,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
 
 class NFTMintRequestFilter(FilterSet):
     purchase_tx_hash = CharFilter(field_name='purchase_tx_hash')
+    status = CharFilter(field_name='status')
 
 
 class NFTMintRequestViewSet(viewsets.ModelViewSet):
@@ -105,3 +108,24 @@ class GnosisBridgeProcessView(views.APIView):
         return_data = model_to_dict(process)
         response = JsonResponse(data=return_data, status=HTTP_200_OK)
         return response
+
+
+class ApplyMintView(views.APIView):
+    http_method_names = ["post", "options", "head"]
+    authentication_classes = [BasicAuthentication]
+
+    def revert(self, reason: str) -> JsonResponse:
+        return JsonResponse(data={
+            "error": reason
+        }, status=HTTP_400_BAD_REQUEST)
+
+    def post(self, request: Request) -> JsonResponse:
+        if not request.user.username == settings.MINT_APPLIER_USERNAME:
+            return self.revert("Bad applier")
+        if not (tx := request.data.get("tx")):
+            return self.revert("Bad tx")
+        if not (mint_request := NFTMintRequest.objects.filter(purchase_tx_hash__iexact=tx).first()):
+            return self.revert(f"Not found request with purchase tx hash ${tx}")
+        mint_request.status = StatusChoices.APPLIED
+        mint_request.save()
+        return JsonResponse(data={"message": "Applied"})
