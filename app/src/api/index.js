@@ -127,3 +127,36 @@ export async function initializeOptimismBridge(tx) {
       throw new Error(err)
     })
 }
+
+export async function getGnosisTx(tx) {
+  return await fetch(`${API_HOST}/gnosis/status?tx=${tx}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (response.ok) {
+        return response
+      }
+      throw new Error(`Error: ${response.status}`)
+    })
+    .then(response => response.json())
+    .catch(err => {
+      throw new Error(err)
+    })
+}
+
+export async function initializeGnosisBridge(tx) {
+  return await fetch(`${API_HOST}/gnosis/bridge`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify({ tx }),
+  })
+    .then(response => response.json())
+    .catch(err => {
+      throw new Error(err)
+    })
+}

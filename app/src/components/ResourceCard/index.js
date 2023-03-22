@@ -8,7 +8,12 @@ import { getERC20RecourceWithSigner } from '../../api/contracts'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
 import { shortenAddress } from '../../utils'
-import { getOptimismTx, initializeOptimismBridge } from '../../api'
+import {
+  getOptimismTx,
+  initializeOptimismBridge,
+  getGnosisTx,
+  initializeGnosisBridge,
+} from '../../api'
 
 const ValidationTextField = styled(TextField)({
   '& input': {
@@ -75,6 +80,37 @@ function ResourceCard({
                     setSuccess(res.status)
                   } else {
                     setTimeout(testTx, 5000)
+                  }
+                })
+                .catch(e => {
+                  console.log(e)
+                })
+            }, 1000)
+          })
+        })
+        .catch(e => console.log(e))
+    } else if (resource_token_name === 'WATR') {
+      await window.ethereum
+        .request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: userAddress,
+              to: networks['10200'].contracts.bridge,
+              value: value.toHexString(),
+            },
+          ],
+        })
+        .then(tx => {
+          setTxHash(tx)
+          initializeGnosisBridge(tx).then(() => {
+            setTimeout(function testTx() {
+              getGnosisTx(tx)
+                .then(res => {
+                  if (res.status === 'SUCCESS' || res.status === 'FAIL') {
+                    setSuccess(res.status)
+                  } else {
+                    setTimeout(testTx, 3000)
                   }
                 })
                 .catch(e => {
