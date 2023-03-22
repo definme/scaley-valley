@@ -23,10 +23,8 @@ function TokenCard({
       <img className='chain__img' src={valley.chain_icon} alt='chain img' />
       <Box className='description'>
         <div className='description__text'>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur
-          dignissimos dolore dolorem, earum eum ipsa laboriosam, modi neque,
-          odit quibusdam quis voluptatem voluptates? Accusamus aperiam commodi
-          pariatur quos temporibus? Illum.
+          Character with high agility and intelligence perks. His homeland is
+          EthValley chain, thus he can travel to some other valley
         </div>
       </Box>
       <Box className='card__inner'>

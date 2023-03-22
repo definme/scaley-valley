@@ -166,7 +166,9 @@ function ResourceCard({
         <Typography>Chain: {name}</Typography>
         <Typography variant='h6' gutterBottom sx={{ fontWeight: '700' }}>
           Price:{' '}
-          {utils.formatEther(utils.parseEther(amount).div(price)).toString()}{' '}
+          {amount
+            ? utils.formatEther(utils.parseEther(amount).div(price)).toString()
+            : 0}{' '}
           {/* {networks[spend_resource_chain.chain_id].params.nativeCurrency.symbol} */}
           ETH
         </Typography>

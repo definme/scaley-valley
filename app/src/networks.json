@@ -19,11 +19,11 @@
     }
   },
   "280": {
-    "name": "zkSynk Era",
+    "name": "zkSync Era",
     "image": "https://icodrops.com/wp-content/uploads/2020/12/zkSync_logo.jpg",
     "params": {
       "chainId": "0x118",
-      "chainName": "zkSynk Era",
+      "chainName": "zkSync Era",
       "nativeCurrency": {
         "name": "ETH",
         "symbol": "ETH",
