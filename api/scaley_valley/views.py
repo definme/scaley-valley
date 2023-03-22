@@ -38,6 +38,7 @@ class CharacterFilter(FilterSet):
     contract_kind_id = CharFilter(field_name='kind__contract_kind_id')
     contract_token_id = CharFilter(field_name='contract_token_id')
 
+
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer

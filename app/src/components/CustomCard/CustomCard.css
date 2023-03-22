@@ -1,0 +1,77 @@
+.card{
+    width: 276px;
+    background-color: #1B1C1E;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+.chain__img, .card__img{
+    -webkit-transition: .4s -webkit-filter ease;
+    -moz-transition: .4s -moz-filter ease;
+    -ms-transition: .4s -ms-filter ease;
+    -o-transition: .4s -o-filter ease;
+    transition: .4s filter ease, .4s -webkit-filter ease;
+}
+.card__img{
+    width: 100%;
+    position: relative;
+}
+.chain__img{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.description{
+    cursor: default;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    opacity: 0;
+    height: 100%;
+    padding: 0 10px;
+    transition: all 0.4s ease;
+}
+.description__text{
+    position: relative;
+    top:50%;
+    transform: translateY(100%);
+    color: white;
+    padding: 0 12px;
+    transition: transform 0.4s ease;
+}
+.card:hover .description{
+    opacity: 1;
+}
+.card:hover .description__text{
+    transform: translateY(-50%);
+}
+.card:hover .card__img, .card:hover .chain__img{
+    filter: brightness(0.4);
+}
+
+.card__inner{
+    padding: 10px;
+    position: relative;
+    z-index: 3;
+}
+
+.card__inner-btn{
+    font-weight: bold;
+    width: 126px;
+    height: 42px;
+    border: 1px solid white;
+    border-radius: 16px;
+    background-color: white;
+    cursor: default;
+    transition: all 0.2s ease;
+}
+
+.card__inner-btn:hover:enabled{
+    background-color: #518FEC;
+    color: white;
+    cursor: pointer;
+}
+.card__inner-btn:active:enabled{
+    background-color: #6aa1f5;
+    cursor: pointer;
+}

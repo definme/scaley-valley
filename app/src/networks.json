@@ -1,0 +1,117 @@
+{
+  "5": {
+    "name": "Goerli",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/768px-Ethereum-icon-purple.svg.png",
+    "params": {
+      "chainId": "0x5",
+      "chainName": "Goerli",
+      "nativeCurrency": {
+        "name": "ETH",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://goerli.blockpi.network/v1/rpc/public"],
+      "blockExplorerUrls": ["https://goerli.etherscan.io/"]
+    },
+    "contracts": {
+      "erc20resource": "0x398949f1fEb2fFFCC7fc90FcD15DfB6C8ad1b59B",
+      "erc721": "0x04F02C3D9C9190F0B66120e2945AF3740dBe485B"
+    }
+  },
+  "280": {
+    "name": "zkSynk Era",
+    "image": "https://icodrops.com/wp-content/uploads/2020/12/zkSync_logo.jpg",
+    "params": {
+      "chainId": "0x118",
+      "chainName": "zkSynk Era",
+      "nativeCurrency": {
+        "name": "ETH",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://zksync2-testnet.zksync.dev"],
+      "blockExplorerUrls": ["https://zksync2-testnet.zkscan.io/"]
+    },
+    "contracts": {
+      "erc20resource": "0x0fa56F22b437cD6D157BBAF429f82969f8f351e1",
+      "trade": "0x81dacf75Ecd37d706e47AbFfF69a1E9542caD0C4"
+    }
+  },
+  "420": {
+    "name": "Optimism",
+    "image": "https://assets-global.website-files.com/6364e65656ab107e465325d2/637aee5401271816b742f1d0_01HdMDRzEw5i8L7vAxa2TtoWOFBrT8ybtRTaRv_InkE.jpeg",
+    "params": {
+      "chainId": "0x1A4",
+      "chainName": "Optimism Goerli",
+      "nativeCurrency": {
+        "name": "ETH",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://goerli.optimism.io"],
+      "blockExplorerUrls": ["https://goerli-explorer.optimism.io/"]
+    },
+    "contracts": {
+      "erc20resource": "0xcb3D2498E189f4D0C5e3cDaBc96ad4469f5478d3",
+      "trade": "0x7C173495a24DF0577D85f5B2d3c89a5f05f515a1",
+      "erc721": "0x3De4Af596Ff7c0946Cf611f6c440Ec7b7BB24c46",
+      "bridge": "0x22E837C1E3380e8f38758C8490d9865433bF3ad5"
+    }
+  },
+  "1422": {
+    "name": "Polygon",
+    "image": "https://seeklogo.com/images/P/polygon-hermez-logo-714211945F-seeklogo.com.png",
+    "params": {
+      "chainId": "0x58E",
+      "chainName": "Polygon zkEVM",
+      "nativeCurrency": {
+        "name": "ETH",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://explorer.public.zkevm-test.net/api/eth-rpc"],
+      "blockExplorerUrls": ["https://explorer.public.zkevm-test.net/"]
+    },
+    "contracts": {
+      "erc20resource": "0x0000000000000000000000000000000000000000"
+    }
+  },
+
+  "10200": {
+    "name": "Gnosis",
+    "image": "https://static-00.iconduck.com/assets.00/gnosis-cryptocurrency-icon-512x512-8zmmvcau.png",
+    "params": {
+      "chainId": "0x27D8",
+      "chainName": "Gnosis Chiado",
+      "nativeCurrency": {
+        "name": "xDAI",
+        "symbol": "xDAI",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://rpc.chiadochain.net"],
+      "blockExplorerUrls": ["https://blockscout.chiadochain.net/"]
+    },
+    "contracts": {
+      "erc20resource": "0x0000000000000000000000000000000000000000"
+    }
+  },
+  "80001": {
+    "name": "Mumbai",
+    "image": "https://app.intotheblock.com/static-assets/coins/matic.png",
+    "params": {
+      "chainId": "0x13881",
+      "chainName": "Mumbai",
+      "nativeCurrency": {
+        "name": "MATIC",
+        "symbol": "MATIC",
+        "decimals": 18
+      },
+      "rpcUrls": ["https://endpoints.omniatech.io/v1/matic/mumbai/public/"],
+      "blockExplorerUrls": ["https://mumbai.polygonscan.com/"]
+    },
+    "contracts": {
+      "erc20resource": "0x0000000000000000000000000000000000000000",
+      "erc721": "0xbDC8B9860F0B78e342C1C6c4b3870b8bAf2d75aA"
+    }
+  }
+}
