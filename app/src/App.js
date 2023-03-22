@@ -12,6 +12,7 @@ function App() {
   const { userAddress } = useContext(ConnectionContext)
   const [woodBalance, setWoodBalance] = useState(0)
   const [opticBalance, setOpticBalance] = useState(0)
+  const [waterBalance, setWaterBalance] = useState(0)
 
   async function getWoodBalance() {
     const zksyncERC20 = await getERC20RecourceWithProvider('280')
@@ -33,6 +34,16 @@ function App() {
       .catch(e => console.log(e))
   }
 
+  async function getWaterBalance() {
+    const gnosisERC20 = await getERC20RecourceWithProvider('10200')
+    gnosisERC20
+      .balanceOf(userAddress)
+      .then(res => {
+        setWaterBalance(Number(utils.formatEther(res)))
+      })
+      .catch(e => console.log(e))
+  }
+
   async function getMainnetERC20Balance() {
     const mainERC20 = await getERC20RecourceWithProvider('5')
     mainERC20
@@ -48,6 +59,7 @@ function App() {
     if (userAddress) {
       getWoodBalance()
       getOpticBalance()
+      getWaterBalance()
       getMainnetERC20Balance()
     }
   }, [userAddress])
@@ -71,6 +83,7 @@ function App() {
                 <MyTokens
                   woodBalance={woodBalance}
                   opticBalance={opticBalance}
+                  waterBalance={waterBalance}
                 />
               }
             />

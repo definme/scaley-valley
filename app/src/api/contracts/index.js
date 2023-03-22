@@ -26,7 +26,12 @@ export async function getSigner() {
 
 export async function getERC20RecourceWithProvider(chainId) {
   let provider
-  if (chainId === '5' || chainId === '280' || chainId === '420') {
+  if (
+    chainId === '5' ||
+    chainId === '280' ||
+    chainId === '420' ||
+    chainId === '10200'
+  ) {
     provider = new ethers.providers.JsonRpcProvider(
       networks[chainId].params.rpcUrls[0]
     )

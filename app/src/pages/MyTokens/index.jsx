@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { getTokens, getValleys } from '../../api'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 
-function MyTokens({ woodBalance, opticBalance }) {
+function MyTokens({ woodBalance, opticBalance, waterBalance }) {
   const [tokens, setTokens] = useState([])
   const [valleys, setValleys] = useState([])
   const [forced, forceUpdate] = useReducer(x => x + 1, 0)
@@ -102,7 +102,7 @@ function MyTokens({ woodBalance, opticBalance }) {
           image={require('../../assets/img/wood.png')}
         />
         <Resource
-          balance={0}
+          balance={waterBalance}
           color={'rgba(59,189,211, 0.1)'}
           image={require('../../assets/img/water.png')}
         />

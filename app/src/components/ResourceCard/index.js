@@ -125,7 +125,8 @@ function ResourceCard({
         <Typography variant='h6' gutterBottom sx={{ fontWeight: '700' }}>
           Price:{' '}
           {utils.formatEther(utils.parseEther(amount).div(price)).toString()}{' '}
-          {networks[spend_resource_chain.chain_id].params.nativeCurrency.symbol}
+          {/* {networks[spend_resource_chain.chain_id].params.nativeCurrency.symbol} */}
+          ETH
         </Typography>
         <Box
           sx={{
