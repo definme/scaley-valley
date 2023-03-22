@@ -7,6 +7,7 @@ import Header from './components/Header'
 import { BuyCharacter, BuyResource, ExploreValleys, MyTokens } from './pages'
 import { getERC20RecourceWithProvider } from './api/contracts'
 import { ConnectionContext } from './contexts/ConnectionContext'
+import Footer from "./components/Footer";
 
 function App() {
   const { userAddress } = useContext(ConnectionContext)
@@ -69,11 +70,12 @@ function App() {
   }, [userAddress])
 
   return (
-    <>
-      <Header />
-      <Container
+    <Box sx={{padding: '0 24px'}}>
+        <Header />
+      <Container disableGutters
         sx={{
           marginTop: '100px',
+
         }}
       >
         <Box sx={{ my: 4 }}>
@@ -98,7 +100,8 @@ function App() {
           </Routes>
         </Box>
       </Container>
-    </>
+        <Footer/>
+    </Box>
   )
 }
 

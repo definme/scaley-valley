@@ -24,10 +24,19 @@ const innerTheme = createTheme({
   palette: {
     primary: {
       main: "#FFF",
-    },
-
-  },
+    }
+  }
 });
+
+const tabStyles = {
+  textTransform: 'capitalize',
+  fontFamily: 'Inter',
+  fontStyle: 'normal',
+  fontWeight: '500',
+  fontSize: '15px',
+  lineHeight: '18px',
+  letterSpacing: '0.01em',
+}
 
 function Header() {
   const { userAddress, chainId, connectWallet } = useContext(ConnectionContext)
@@ -80,107 +89,65 @@ function Header() {
             backgroundColor: "#1B1C1E",
             borderBottom: "1px solid #2A2B2F"
           }}>
-            <Container disableGutters>
-              <Toolbar
-                  sx={{
-                    justifyContent: 'space-between'
-                  }}
-              >
-                <Box className="logo__wrapper">
-                  <img src={logo} alt="logo" className="logo-img"/>
-                  <div className="logo-title">SCALEY-VALLEY</div>
-                </Box>
+            <Box sx={{padding: '0 24px'}}>
+              <Container disableGutters>
+                <Toolbar disableGutters
+                    sx={{
+                      justifyContent: 'space-between'
+                    }}
+                >
+                  <Box className="logo__wrapper">
+                    <img src={logo} alt="logo" className="logo-img"/>
+                    <div className="logo-title">SCALEY-VALLEY</div>
+                  </Box>
 
 
-                <ThemeProvider theme={innerTheme}>
-                  <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      aria-label='basic tabs example'
-                      sx={{
-                        '& .MuiTabs-indicator': {backgroundColor: "white", borderRadius: "62px", height: "4px"},
-                        '& .MuiTab-root': { color: "#616572"},
-                      }}
-                  >
-                    <Tab label='Buy Character' {...a11yProps(0)} />
-                    <Tab label='Buy Resources' {...a11yProps(1)} />
-                    <Tab label='Explore the Valleys' {...a11yProps(2)} />
-                    <Tab label='My Tokens' {...a11yProps(2)} />
-                  </Tabs>
-                </ThemeProvider>
-                {userAddress ? (
-                    <Box
+                  <ThemeProvider theme={innerTheme}>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label='basic tabs example'
                         sx={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          gap: '10px',
+                          '& .MuiTabs-indicator': {backgroundColor: "white", borderRadius: "62px", height: "4px"},
+                          '& .MuiTab-root': { color: "#616572", height: '100%'},
+                          '& .MuiTabs-flexContainer': {
+                            gap: '24px',
+                          },
+                          '& .MuiButtonBase-root':{
+                            padding: 0,
+                          }
                         }}
                     >
-                      <ChainIndicator chain={chainId} />
-                      {shortenAddress(userAddress)}
-                    </Box>
-                ) : (
-                    <Button color='inherit' onClick={connectWallet}>
-                      Connect Wallet
-                    </Button>
-                )}
-              </Toolbar>
-            </Container>
+                      <Tab sx={tabStyles} label='Buy Character' {...a11yProps(0)} />
+                      <Tab sx={tabStyles} label='Buy Resources' {...a11yProps(1)} />
+                      <Tab sx={tabStyles} label='Explore the Valleys' {...a11yProps(2)} />
+                      <Tab sx={tabStyles} label='My Tokens' {...a11yProps(2)} />
+                    </Tabs>
+                  </ThemeProvider>
+                  {userAddress ? (
+                      <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: '10px',
+                          }}
+                      >
+                        <ChainIndicator chain={chainId} />
+                        {shortenAddress(userAddress)}
+                      </Box>
+                  ) : (
+                      <Button color='inherit' onClick={connectWallet}>
+                        Connect Wallet
+                      </Button>
+                  )}
+                </Toolbar>
+              </Container>
 
+            </Box>
 
           </AppBar>
         </Box>
-    // <Box sx={{ flexGrow: 1 }}>
-    //   <AppBar position='static' sx={{
-    //     backgroundColor: "#1B1C1E"
-    //   }}>
-    //     <Container disableGutters>
-    //       <Toolbar>
-    //         <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-    //           Scaley Valley
-    //         </Typography>
-    //
-    //         <Tabs
-    //             value={value}
-    //             onChange={handleChange}
-    //             aria-label='basic tabs example'
-    //             sx={{
-    //               '& .MuiTabs-indicator': {backgroundColor: "white", borderRadius: "62px", height: "4px" },
-    //               '& .MuiTab-root': { color: "#616572"},
-    //               '& .Mui-selected': { color: "white"},
-    //             }}
-    //         >
-    //           <Tab label='Buy Character' {...a11yProps(0)} />
-    //           <Tab label='Buy Resources' {...a11yProps(1)} />
-    //           <Tab label='Explore the Valleys' {...a11yProps(2)} />
-    //           <Tab label='My Tokens' {...a11yProps(2)} />
-    //         </Tabs>
-    //
-    //
-    //         {userAddress ? (
-    //             <Box
-    //                 sx={{
-    //                   display: 'flex',
-    //                   flexDirection: 'row',
-    //                   alignItems: 'center',
-    //                   gap: '10px',
-    //                 }}
-    //             >
-    //               <ChainIndicator chain={chainId} />
-    //               {shortenAddress(userAddress)}
-    //             </Box>
-    //         ) : (
-    //             <Button color='inherit' onClick={connectWallet}>
-    //               Connect Wallet
-    //             </Button>
-    //         )}
-    //       </Toolbar>
-    //     </Container>
-    //
-    //
-    //   </AppBar>
-    // </Box>
   )
 }
 
