@@ -7,10 +7,10 @@ import React, { useEffect, useState } from 'react'
 import { getTokens, getValleys } from '../../api'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 
-function MyTokens() {
+function MyTokens({ woodBalance, opticBalance }) {
   const [tokens, setTokens] = useState([])
   const [valleys, setValleys] = useState([])
-  const [forced, forceUpdate] = useReducer((x) => x + 1, 0)
+  const [forced, forceUpdate] = useReducer(x => x + 1, 0)
 
   const { userAddress } = React.useContext(ConnectionContext)
 
@@ -70,7 +70,7 @@ function MyTokens() {
           color: '#616572',
         }}
       >
-        Какой-нибудь текст для большего понимания для пользователя.
+        {/* Какой-нибудь текст для большего понимания для пользователя. */}
       </Typography>
 
       <Typography
@@ -96,10 +96,26 @@ function MyTokens() {
           borderBottom: '1px solid #323334',
         }}
       >
-        <Resource />
-        <Resource />
-        <Resource />
-        <Resource />
+        <Resource
+          balance={woodBalance}
+          color={'rgba(98,69,54, 0.1)'}
+          image={require('../../assets/img/wood.png')}
+        />
+        <Resource
+          balance={0}
+          color={'rgba(59,189,211, 0.1)'}
+          image={require('../../assets/img/water.png')}
+        />
+        <Resource
+          balance={opticBalance}
+          color={'rgba(255,234,148,0.1)'}
+          image={require('../../assets/img/optic.png')}
+        />
+        <Resource
+          balance={0}
+          color={'rgba(191,251,233, 0.1)'}
+          image={require('../../assets/img/air.png')}
+        />
       </Box>
 
       <Typography
@@ -127,7 +143,12 @@ function MyTokens() {
         }}
       >
         {tokens.map((token, index) => (
-          <TokenCard key={index} {...token} allValleys={valleys} forceUpdate={forceUpdate} />
+          <TokenCard
+            key={index}
+            {...token}
+            allValleys={valleys}
+            forceUpdate={forceUpdate}
+          />
         ))}
       </Box>
     </>
