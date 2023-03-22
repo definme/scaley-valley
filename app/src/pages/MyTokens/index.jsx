@@ -6,6 +6,7 @@ import TokenCard from '../../components/TokenCard'
 import React, { useEffect, useState } from 'react'
 import { getTokens, getValleys } from '../../api'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
+import styles from './MyTokens.module.css'
 
 function MyTokens({ woodBalance, opticBalance, waterBalance }) {
   const [tokens, setTokens] = useState([])
@@ -42,21 +43,7 @@ function MyTokens({ woodBalance, opticBalance, waterBalance }) {
 
   return (
     <>
-      <Typography
-        sx={{
-          fontFamily: "'Inter', sans-serif",
-          fontStyle: 'normal',
-          fontWeight: '600',
-          fontSize: '40px',
-          lineHeight: '48px',
-          textAlign: 'center',
-          letterSpacing: '0.01em',
-          color: 'white',
-          marginTop: '135px',
-        }}
-      >
-        My Tokens
-      </Typography>
+      <p className={styles.main__title}>My Tokens</p>
       <Typography
         sx={{
           fontFamily: "'Inter', sans-serif",
@@ -87,15 +74,7 @@ function MyTokens({ woodBalance, opticBalance, waterBalance }) {
       >
         My Resources
       </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginBottom: '32px',
-          paddingBottom: '32px',
-          borderBottom: '1px solid #323334',
-        }}
-      >
+      <div className={styles.resource__container}>
         <Resource
           balance={woodBalance}
           color={'rgba(98,69,54, 0.1)'}
@@ -116,8 +95,7 @@ function MyTokens({ woodBalance, opticBalance, waterBalance }) {
           color={'rgba(191,251,233, 0.1)'}
           image={require('../../assets/img/air.png')}
         />
-      </Box>
-
+      </div>
       <Typography
         sx={{
           fontFamily: "'Inter', sans-serif",

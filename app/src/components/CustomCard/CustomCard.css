@@ -43,7 +43,7 @@
     opacity: 1;
 }
 .card:hover .description__text{
-    transform: translateY(-50%);
+    transform: translateY(-100%);
 }
 .card:hover .card__img, .card:hover .chain__img{
     filter: brightness(0.4);

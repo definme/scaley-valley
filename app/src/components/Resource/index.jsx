@@ -1,18 +1,10 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import styles from './Resource.module.css'
 
 export default function Resource({ balance, color, image }) {
   return (
-    <Box
-      sx={{
-        background:
-          ' linear-gradient(135.01deg, #3E3E3E 14.4%, #21242A 112.02%)',
-        width: '282px',
-        height: '179px',
-        borderRadius: '16px',
-      }}
-    >
+    <div className={styles.resource__item}>
       <Box
         sx={{
           backgroundColor: color,
@@ -26,19 +18,16 @@ export default function Resource({ balance, color, image }) {
           flexDirection: 'column',
         }}
       >
-        <img height='52px' alt='resource' src={image} />
-        <Typography
-          sx={{
-            color: 'white',
-            fontSize: '32px',
-            textAlign: 'center',
-            fontWeight: '700',
-            lineHeight: '38px',
-          }}
-        >
+        <img
+          height='52px'
+          alt='resource'
+          src={image}
+          className={styles.resource__img}
+        />
+        <p className={styles.resource__text}>
           {Number(Number(balance).toFixed(2))}
-        </Typography>
+        </p>
       </Box>
-    </Box>
+    </div>
   )
 }

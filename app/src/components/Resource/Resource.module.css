@@ -1,0 +1,30 @@
+.resource__item {
+  background: linear-gradient(135.01deg, #3e3e3e 14.4%, #21242a 112.02%);
+  width: 100%;
+  height: 179px;
+  border-radius: 16px;
+}
+
+.resource__text {
+  color: white;
+  font-size: 32px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 38px;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .resource__item {
+    height: 120px;
+  }
+
+  .resource__img {
+    height: 30px;
+  }
+
+  .resource__text {
+    font-size: 24px;
+    line-height: 24px;
+  }
+}

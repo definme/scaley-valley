@@ -5,7 +5,13 @@ import Avatar from '@mui/material/Avatar'
 import ChangeValleyModal from '../ChangeValleyModal'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 
-function TokenCard({ kind, valley, allValleys, contract_token_id, forceUpdate }) {
+function TokenCard({
+  kind,
+  valley,
+  allValleys,
+  contract_token_id,
+  forceUpdate,
+}) {
   const { chainId } = useContext(ConnectionContext)
   const [modalOpen, setModalOpen] = useState(false)
   const handleModalOpen = () => setModalOpen(true)
@@ -14,11 +20,7 @@ function TokenCard({ kind, valley, allValleys, contract_token_id, forceUpdate })
   return (
     <Box className='card'>
       <img className='card__img' src={kind.image_uri} alt='character' />
-      <img
-        className='chain__img'
-        src={kind.payment_resource?.spend_resource_chain?.image_uri}
-        alt='chain img'
-      />
+      <img className='chain__img' src={valley.chain_icon} alt='chain img' />
       <Box className='description'>
         <div className='description__text'>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur
@@ -38,7 +40,7 @@ function TokenCard({ kind, valley, allValleys, contract_token_id, forceUpdate })
             marginBottom: '10px',
           }}
         >
-          {kind.name}
+          {kind.name} (#{contract_token_id})
         </Typography>
         <Box>
           <Box>
