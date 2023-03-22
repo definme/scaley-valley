@@ -39,11 +39,15 @@ class PurchaseIndexer:
             to_block = int(min(start_block + chain.indexed_blocks_interval, last_block_in_chain))
             print(f"Taking events from {start_block} to {to_block} where argument to={resource.trade_contract_address}")
             traded_kind = Kind.objects.get(contract_kind_id=trade_contract.functions.tradedKind().call())
-            events = w3.eth.get_logs({
-                "address": resource_token.address,
-                "fromBlock": start_block,
-                "toBlock": to_block
-            })
+            try:
+                events = w3.eth.get_logs({
+                    "address": resource_token.address,
+                    "fromBlock": start_block,
+                    "toBlock": to_block
+                })
+            except Exception as e:
+                print(f"When fetching events {e} occurred. skip indexer cycle")
+                return
             if not events:
                 print("No events found. Skip blocks range")
             else:
