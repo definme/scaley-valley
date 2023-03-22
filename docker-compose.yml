@@ -192,6 +192,13 @@ services:
       options:
         max-size: "50m"
 
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: app
+    restart: always
+
 volumes:
   static:
   media:
