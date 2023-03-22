@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import ResourceCard from '../../components/ResourceCard'
 import { getResources } from '../../api'
 
-function BuyResource() {
+function BuyResource({ renewResources }) {
   const [resources, setResources] = useState([])
 
   function getAllResources() {
@@ -49,7 +49,11 @@ function BuyResource() {
         }}
       >
         {resources.map((resource, index) => (
-          <ResourceCard key={index} {...resource} />
+          <ResourceCard
+            key={index}
+            {...resource}
+            renewResources={renewResources}
+          />
         ))}
       </Box>
     </Box>

@@ -45,6 +45,7 @@ function ResourceCard({
   spend_resource_chain,
   image_uri,
   price,
+  renewResources,
 }) {
   const { userAddress, chainId } = useContext(ConnectionContext)
   const [txHash, setTxHash] = useState()
@@ -78,6 +79,7 @@ function ResourceCard({
                 .then(res => {
                   if (res.status === 'SUCCESS' || res.status === 'FAIL') {
                     setSuccess(res.status)
+                    renewResources()
                   } else {
                     setTimeout(testTx, 5000)
                   }
@@ -109,6 +111,7 @@ function ResourceCard({
                 .then(res => {
                   if (res.status === 'SUCCESS' || res.status === 'FAIL') {
                     setSuccess(res.status)
+                    renewResources()
                   } else {
                     setTimeout(testTx, 3000)
                   }
@@ -128,7 +131,10 @@ function ResourceCard({
         .then(tx => {
           setTxHash(tx.hash)
           tx.wait()
-            .then(() => setSuccess('SUCCESS!!'))
+            .then(() => {
+              setSuccess('SUCCESS!!')
+              renewResources()
+            })
             .catch(() => setSuccess('FAILED'))
         })
         .catch(e => console.log(e))

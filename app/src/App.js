@@ -55,11 +55,15 @@ function App() {
       .catch(e => console.log(e))
   }
 
+  function renewResources() {
+    getWoodBalance()
+    getOpticBalance()
+    getWaterBalance()
+  }
+
   useEffect(() => {
     if (userAddress) {
-      getWoodBalance()
-      getOpticBalance()
-      getWaterBalance()
+      renewResources()
       getMainnetERC20Balance()
     }
   }, [userAddress])
@@ -75,7 +79,10 @@ function App() {
         <Box sx={{ my: 4 }}>
           <Routes>
             <Route exact path='/' element={<BuyCharacter />} />
-            <Route path='/resources' element={<BuyResource />} />
+            <Route
+              path='/resources'
+              element={<BuyResource renewResources={renewResources} />}
+            />
             <Route path='/valleys' element={<ExploreValleys />} />
             <Route
               path='/my-tokens'

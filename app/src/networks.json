@@ -93,7 +93,8 @@
     },
     "contracts": {
       "erc20resource": "0xd94fe1A478772040BD0f8085C88eA19D99f7D29b",
-      "bridge": "0xE99867282F28994a6a6a9FF43866a377B08482C8"
+      "bridge": "0xE99867282F28994a6a6a9FF43866a377B08482C8",
+      "trade": "0xE99867282F28994a6a6a9FF43866a377B08482C8"
     }
   },
   "80001": {

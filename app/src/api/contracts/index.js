@@ -61,7 +61,7 @@ export async function getERC20RecourceWithSigner(chainId) {
 
 export async function getTradeWithProvider(chainId) {
   let provider
-  if (chainId === '280' || chainId === '420') {
+  if (chainId === '280' || chainId === '420' || chainId === '10200') {
     provider = new ethers.providers.JsonRpcProvider(
       networks[chainId].params.rpcUrls[0]
     )

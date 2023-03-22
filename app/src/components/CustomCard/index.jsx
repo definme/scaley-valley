@@ -10,8 +10,17 @@ import {
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
 import { shortenAddress } from '../../utils'
+import { getTokens } from '../../api'
 
-function CustomCard({ name, image_uri,payment_resource,contract_kind_id, description, price }) {
+function CustomCard({
+  name,
+  image_uri,
+  payment_resource,
+  contract_kind_id,
+  description,
+  price,
+  myCharactersLength,
+}) {
   const { userAddress, chainId } = useContext(ConnectionContext)
   const [contractPrice, setContractPrice] = useState()
   const [txHash, setTxHash] = useState()
@@ -42,7 +51,21 @@ function CustomCard({ name, image_uri,payment_resource,contract_kind_id, descrip
       .then(tx => {
         setTxHash(tx.hash)
         tx.wait()
-          .then(() => setSuccess('SUCCESS!!'))
+          .then(() => {
+            setTimeout(function testToken() {
+              getTokens(userAddress)
+                .then(res => {
+                  if (res.length > myCharactersLength) {
+                    setSuccess('SUCCESS!!')
+                  } else {
+                    setTimeout(testToken, 5000)
+                  }
+                })
+                .catch(e => {
+                  console.log(e)
+                })
+            }, 1000)
+          })
           .catch(() => setSuccess('FAILED'))
       })
       .catch(e => console.log(e))
@@ -67,7 +90,7 @@ function CustomCard({ name, image_uri,payment_resource,contract_kind_id, descrip
             fontWeight: '700',
             lineHeight: '29px',
             letterSpacing: '0.01em',
-            fontFamily: "'Inter', sans-serif"
+            fontFamily: "'Inter', sans-serif",
           }}
         >
           {name}
@@ -80,15 +103,25 @@ function CustomCard({ name, image_uri,payment_resource,contract_kind_id, descrip
           }}
         >
           <Box>
-            <Typography variant='caption' color='#616572' sx={{
-                fontFamily: "'Inter', sans-serif"
-            }}>
+            <Typography
+              variant='caption'
+              color='#616572'
+              sx={{
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
               Price
             </Typography>
-            <Typography color='white' fontWeight='bold' sx={{
-                fontFamily: "'Inter', sans-serif"
-            }}>
-              {contractPrice ? Number(utils.formatEther(contractPrice)) : Number(utils.formatEther(price))}{' '}
+            <Typography
+              color='white'
+              fontWeight='bold'
+              sx={{
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              {contractPrice
+                ? Number(utils.formatEther(contractPrice))
+                : Number(utils.formatEther(price))}{' '}
               {payment_resource?.resource_token_name}
             </Typography>
           </Box>
