@@ -26,7 +26,7 @@ function BuyCharacter() {
       })
       .catch(e => console.log(e))
   }
-  console.log(myCharactersLength)
+
   useEffect(() => {
     getAllCharacters()
   }, [])

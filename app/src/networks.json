@@ -15,7 +15,8 @@
     },
     "contracts": {
       "erc20resource": "0x398949f1fEb2fFFCC7fc90FcD15DfB6C8ad1b59B",
-      "erc721": "0x04F02C3D9C9190F0B66120e2945AF3740dBe485B"
+      "erc721": "0x04F02C3D9C9190F0B66120e2945AF3740dBe485B",
+      "collection": "0x7a1Bf79FeA06Da1C7bb03Bbc729F1360ACa2080f"
     }
   },
   "280": {

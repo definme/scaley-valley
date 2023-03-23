@@ -4,6 +4,9 @@ import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import ChangeValleyModal from '../ChangeValleyModal'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
+import { getCollectionWithSigner } from '../../api/contracts'
+import networks from '../../networks.json'
+import { shortenAddress } from '../../utils'
 
 function TokenCard({
   kind,
@@ -11,11 +14,48 @@ function TokenCard({
   allValleys,
   contract_token_id,
   forceUpdate,
+  collectionApprove,
+  setCollectionApprove,
 }) {
   const { chainId } = useContext(ConnectionContext)
   const [modalOpen, setModalOpen] = useState(false)
+  const [txHash, setTxHash] = useState()
   const handleModalOpen = () => setModalOpen(true)
   const handleModalClose = () => setModalOpen(false)
+
+  function handleClick() {
+    if (
+      chainId === '5' &&
+      valley.chain.toString() === '5' &&
+      !collectionApprove
+    ) {
+      setApprove()
+    } else {
+      handleModalOpen()
+    }
+  }
+
+  async function setApprove() {
+    const collection = await getCollectionWithSigner(chainId)
+    console.log(collection)
+    await collection
+      .setApprovalForAll(networks[chainId].contracts.erc721, true)
+      .then(tx => {
+        setTxHash(tx.hash)
+        tx.wait()
+          .then(() => {
+            setTxHash()
+            setCollectionApprove(true)
+          })
+          .catch(err => {
+            console.log(err)
+            setTxHash()
+          })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   return (
     <Box className='card'>
@@ -66,14 +106,30 @@ function TokenCard({
               <Avatar src={valley.image_uri} alt='chain'></Avatar>
             </Box>
           </Box>
-          <button
-            className='card__inner-btn'
-            style={{ width: '100%' }}
-            onClick={handleModalOpen}
-            disabled={valley.chain.toString() !== chainId}
-          >
-            Travel
-          </button>
+
+          {txHash ? (
+            <button className='card__inner-btn' style={{ width: '100%' }}>
+              <a
+                href={`${networks[chainId].params.blockExplorerUrls}tx/${txHash}`}
+                target='_blank'
+              >
+                {txHash && shortenAddress(txHash)}
+              </a>
+            </button>
+          ) : (
+            <button
+              className='card__inner-btn'
+              style={{ width: '100%' }}
+              onClick={handleClick}
+              disabled={valley.chain.toString() !== chainId}
+            >
+              {chainId === '5' &&
+              valley.chain.toString() === '5' &&
+              !collectionApprove
+                ? 'Approve'
+                : 'Travel'}
+            </button>
+          )}
           <ChangeValleyModal
             open={modalOpen}
             handleClose={handleModalClose}

@@ -3,6 +3,7 @@ import networks from '../../networks.json'
 import ERC20ResouceAbi from '../../abis/ERC20Abi.json'
 import TradeContractAbi from '../../abis/TradeContractAbi.json'
 import ERC721Abi from '../../abis/ERC721Abi.json'
+import CollectionAbi from '../../abis/CollectionAbi.json'
 
 export async function getProvider(chainId) {
   let provider
@@ -87,4 +88,16 @@ export async function getERC721WithSigner(chainId) {
     signer
   )
   return ERC721
+}
+
+export async function getCollectionWithSigner(chainId) {
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  const signer = provider.getSigner()
+
+  const Collection = new ethers.Contract(
+    networks[chainId].contracts.collection,
+    CollectionAbi,
+    signer
+  )
+  return Collection
 }

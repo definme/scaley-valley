@@ -5,15 +5,18 @@ import Resource from '../../components/Resource'
 import TokenCard from '../../components/TokenCard'
 import React, { useEffect, useState } from 'react'
 import { getTokens, getValleys } from '../../api'
+import { getCollectionWithSigner } from '../../api/contracts'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
+import networks from '../../networks.json'
 import styles from './MyTokens.module.css'
 
 function MyTokens({ woodBalance, opticBalance, waterBalance }) {
   const [tokens, setTokens] = useState([])
   const [valleys, setValleys] = useState([])
+  const [collectionApprove, setCollectionApprove] = useState(false)
   const [forced, forceUpdate] = useReducer(x => x + 1, 0)
 
-  const { userAddress } = React.useContext(ConnectionContext)
+  const { userAddress, chainId } = React.useContext(ConnectionContext)
 
   function getAllTokens() {
     if (userAddress) {
@@ -33,6 +36,16 @@ function MyTokens({ woodBalance, opticBalance, waterBalance }) {
       .catch(e => console.log(e))
   }
 
+  async function getCollectionApprove() {
+    const collection = await getCollectionWithSigner(chainId)
+    collection
+      .isApprovedForAll(userAddress, networks[chainId].contracts.erc721)
+      .then(res => {
+        setCollectionApprove(res)
+      })
+      .catch(e => console.log(e))
+  }
+
   useEffect(() => {
     getAllValleys()
   }, [])
@@ -40,6 +53,10 @@ function MyTokens({ woodBalance, opticBalance, waterBalance }) {
   useEffect(() => {
     getAllTokens()
   }, [userAddress, forced])
+
+  useEffect(() => {
+    if (userAddress && chainId === '5') getCollectionApprove()
+  }, [userAddress, chainId])
 
   return (
     <>
@@ -126,6 +143,8 @@ function MyTokens({ woodBalance, opticBalance, waterBalance }) {
             {...token}
             allValleys={valleys}
             forceUpdate={forceUpdate}
+            collectionApprove={collectionApprove}
+            setCollectionApprove={setCollectionApprove}
           />
         ))}
       </Box>
