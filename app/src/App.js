@@ -1,19 +1,79 @@
 import { useState, useEffect, useContext } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { utils } from 'ethers'
+import * as PushAPI from '@pushprotocol/restapi'
+import { NotificationItem } from '@pushprotocol/uiweb'
+import { createSocketConnection, EVENTS } from '@pushprotocol/socket'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Header from './components/Header'
 import { BuyCharacter, BuyResource, ExploreValleys, MyTokens } from './pages'
 import { getERC20RecourceWithProvider } from './api/contracts'
 import { ConnectionContext } from './contexts/ConnectionContext'
-import Footer from "./components/Footer";
+import Footer from './components/Footer'
+import { getSigner } from './api/contracts'
 
 function App() {
-  const { userAddress } = useContext(ConnectionContext)
+  const { userAddress, chainId } = useContext(ConnectionContext)
   const [woodBalance, setWoodBalance] = useState(0)
   const [opticBalance, setOpticBalance] = useState(0)
   const [waterBalance, setWaterBalance] = useState(0)
+  const [notifications, setNotifications] = useState()
+  const [userSubscribed, setUserSubscribed] = useState(true)
+  const [pushSocket, setPushSocket] = useState()
+
+  async function subscribeNotifications() {
+    await PushAPI.channels.subscribe({
+      signer: await getSigner(),
+      onSuccess: () => {
+        getSubscribeNotifications()
+      },
+      onError: () => {
+        console.error('opt in error')
+      },
+      env: 'staging',
+      userAddress: `eip155:5:${userAddress}`,
+      channelAddress: 'eip155:5:0x031A55b6156A5FCad6732fa10A6D58092413B6C6',
+    })
+  }
+
+  async function getSubscribeNotifications() {
+    await PushAPI.channels
+      .getSubscribers({
+        channel: 'eip155:5:0x031A55b6156A5FCad6732fa10A6D58092413B6C6',
+        env: 'staging',
+      })
+      .then(res => {
+        const arr = res.subscribers.map(el => utils.getAddress(el))
+        if (arr.includes(userAddress)) {
+          setUserSubscribed(true)
+        } else {
+          setUserSubscribed(false)
+        }
+      })
+  }
+
+  async function getNotifications() {
+    await PushAPI.user
+      .getFeeds({
+        user: `eip155:5:${userAddress}`,
+        env: 'staging',
+        limit: 1,
+        page: 1,
+      })
+      .then(res => {
+        setNotifications(res[0])
+      })
+  }
+
+  async function getPushSocket() {
+    const pushSDKSocket = createSocketConnection({
+      user: `eip155:5:${userAddress}`,
+      env: 'staging',
+      socketOptions: { autoConnect: true },
+    })
+    setPushSocket(pushSDKSocket)
+  }
 
   async function getWoodBalance() {
     const zksyncERC20 = await getERC20RecourceWithProvider('280')
@@ -66,42 +126,85 @@ function App() {
     if (userAddress) {
       renewResources()
       getMainnetERC20Balance()
+      getSubscribeNotifications()
+      getPushSocket()
     }
   }, [userAddress])
 
-  return (
-    <Box sx={{padding: '0 24px'}}>
-        <Header />
-      <Container disableGutters
-        sx={{
-          marginTop: '100px',
+  useEffect(() => {
+    pushSocket?.on(EVENTS.USER_FEEDS, getNotifications)
+  }, [pushSocket])
 
-        }}
-      >
-        <Box sx={{ my: 4 }}>
-          <Routes>
-            <Route exact path='/' element={<BuyCharacter />} />
-            <Route
-              path='/resources'
-              element={<BuyResource renewResources={renewResources} />}
+  useEffect(() => {
+    if (notifications) {
+      setTimeout(() => {
+        setNotifications()
+      }, '10000')
+    }
+  }, [notifications])
+
+  return (
+    <>
+      {!userSubscribed && chainId === '5' && (
+        <button
+          className='notifications-button'
+          onClick={subscribeNotifications}
+        >
+          <img
+            src={require('./assets/img/push.jpeg')}
+            width='100%'
+            height='auto'
+            alt='push'
+          />
+        </button>
+      )}
+      <Box sx={{ padding: '0 24px' }}>
+        {notifications && (
+          <div className='notifications-container'>
+            <NotificationItem
+              notificationTitle={notifications.title}
+              notificationBody={notifications.message}
+              cta={notifications.cta}
+              app={notifications.app}
+              icon={notifications.icon}
+              image={notifications.image}
+              url={notifications.url}
+              chainName={notifications.blockchain}
             />
-            <Route path='/valleys' element={<ExploreValleys />} />
-            <Route
-              path='/my-tokens'
-              element={
-                <MyTokens
-                  woodBalance={woodBalance}
-                  opticBalance={opticBalance}
-                  waterBalance={waterBalance}
-                />
-              }
-            />
-            <Route path='*' element={<BuyCharacter />} />
-          </Routes>
-        </Box>
-      </Container>
-        <Footer/>
-    </Box>
+          </div>
+        )}
+        <Header />
+        <Container
+          disableGutters
+          sx={{
+            marginTop: '100px',
+          }}
+        >
+          <Box sx={{ my: 4 }}>
+            <Routes>
+              <Route exact path='/' element={<BuyCharacter />} />
+              <Route
+                path='/resources'
+                element={<BuyResource renewResources={renewResources} />}
+              />
+              <Route path='/valleys' element={<ExploreValleys />} />
+              <Route
+                path='/my-tokens'
+                element={
+                  <MyTokens
+                    woodBalance={woodBalance}
+                    opticBalance={opticBalance}
+                    waterBalance={waterBalance}
+                  />
+                }
+              />
+              <Route path='*' element={<BuyCharacter />} />
+            </Routes>
+          </Box>
+        </Container>
+        <Footer />
+      </Box>
+    </>
   )
 }
 

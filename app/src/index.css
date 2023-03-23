@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #1B1C1E;
+  background-color: #1b1c1e;
   /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',*/
   /*  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',*/
   /*  sans-serif;*/
@@ -14,21 +14,58 @@ code {
     monospace;
 }
 
-.logo__wrapper{
+.logo__wrapper {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
-.logo-img{
+.logo-img {
   width: 44px;
   height: 44px;
   margin-right: 16px;
 }
-.logo-title{
+.logo-title {
   font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 800;
   font-size: 20px;
   line-height: 24px;
   letter-spacing: 0.01em;
+}
+
+.notifications-button {
+  cursor: pointer;
+  position: fixed;
+  z-index: 10;
+  border: none;
+  overflow: hidden;
+  background-color: white;
+  bottom: 20px;
+  right: 20px;
+  height: 52px;
+  width: 52px;
+  border-radius: 50%;
+}
+
+.notifications-container {
+  cursor: pointer;
+  position: fixed;
+  z-index: 100;
+  border: none;
+  overflow: hidden;
+  background-color: transparent;
+  bottom: 20px;
+  right: 20px;
+  min-width: 250px;
+}
+
+@media (max-width: 768px) {
+  .notifications-button {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
+  .notifications-container {
+    min-width: 200px;
+  }
 }
