@@ -6,7 +6,7 @@ import { getCharacters, getTokens } from '../../api'
 import Typography from '@mui/material/Typography'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
 
-function BuyCharacter() {
+function BuyCharacter({ renewResources }) {
   const { userAddress } = useContext(ConnectionContext)
   const [characters, setCharacters] = useState([])
   const [myCharactersLength, setMyCharactersLength] = useState(0)
@@ -82,6 +82,7 @@ function BuyCharacter() {
             description='Character with high agility and intelligence perks. His homeland is EthValley chain, thus he can travel to some other valley'
             {...character}
             myCharactersLength={myCharactersLength}
+            renewResources={renewResources}
           />
         ))}
       </Box>

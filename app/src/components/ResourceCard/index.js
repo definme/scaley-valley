@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react'
+import * as PushAPI from '@pushprotocol/restapi'
 import { styled } from '@mui/material/styles'
-import { utils } from 'ethers'
+import { utils, Wallet } from 'ethers'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -14,6 +15,7 @@ import {
   getGnosisTx,
   initializeGnosisBridge,
 } from '../../api'
+import { CHANNEL_PK, CHANNEL_ADDRESS } from '../../constants'
 
 const ValidationTextField = styled(TextField)({
   '& input': {
@@ -47,10 +49,37 @@ function ResourceCard({
   price,
   renewResources,
 }) {
+  const Pkey = `0x${CHANNEL_PK}`
+  const _signer = new Wallet(Pkey)
   const { userAddress, chainId } = useContext(ConnectionContext)
   const [txHash, setTxHash] = useState()
   const [success, setSuccess] = useState()
   const [amount, setAmount] = useState('100')
+
+  const sendNotification = async () => {
+    try {
+      await PushAPI.payloads.sendNotification({
+        signer: _signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `Success!`,
+          body: `The resource was successfully purchased`,
+        },
+        payload: {
+          title: `Success!`,
+          body: `The resource was successfully purchased`,
+          cta: '',
+          img: '',
+        },
+        channel: `eip155:5:${CHANNEL_ADDRESS}`,
+        recipients: `eip155:5:${userAddress}`,
+        env: 'staging',
+      })
+    } catch (err) {
+      console.error('Error: ', err)
+    }
+  }
 
   function handleAmount(e) {
     setAmount(e.target.value)
@@ -78,6 +107,7 @@ function ResourceCard({
               getOptimismTx(tx)
                 .then(res => {
                   if (res.status === 'SUCCESS' || res.status === 'FAIL') {
+                    sendNotification()
                     setSuccess(res.status)
                     renewResources()
                   } else {
@@ -110,6 +140,7 @@ function ResourceCard({
               getGnosisTx(tx)
                 .then(res => {
                   if (res.status === 'SUCCESS' || res.status === 'FAIL') {
+                    sendNotification()
                     setSuccess(res.status)
                     renewResources()
                   } else {
@@ -132,6 +163,7 @@ function ResourceCard({
           setTxHash(tx.hash)
           tx.wait()
             .then(() => {
+              sendNotification()
               setSuccess('SUCCESS!!')
               renewResources()
             })

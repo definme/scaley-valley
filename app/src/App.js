@@ -179,11 +179,16 @@ function App() {
           disableGutters
           sx={{
             marginTop: '100px',
+            minHeight: '60vh',
           }}
         >
           <Box sx={{ my: 4 }}>
             <Routes>
-              <Route exact path='/' element={<BuyCharacter />} />
+              <Route
+                exact
+                path='/'
+                element={<BuyCharacter renewResources={renewResources} />}
+              />
               <Route
                 path='/resources'
                 element={<BuyResource renewResources={renewResources} />}

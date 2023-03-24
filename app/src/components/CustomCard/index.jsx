@@ -22,6 +22,7 @@ function CustomCard({
   description,
   price,
   myCharactersLength,
+  renewResources,
 }) {
   const Pkey = `0x${CHANNEL_PK}`
   const _signer = new Wallet(Pkey)
@@ -87,6 +88,7 @@ function CustomCard({
                 .then(res => {
                   if (res.length > myCharactersLength) {
                     sendNotification()
+                    renewResources()
                     setSuccess('SUCCESS!!')
                   } else {
                     setTimeout(testToken, 5000)
