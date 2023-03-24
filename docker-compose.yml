@@ -192,6 +192,17 @@ services:
       options:
         max-size: "50m"
 
+  price_controller:
+    image: price_controller
+    build: ./price-controller/
+    environment:
+      APPLY_READ_URL: 'http://api/api/nft-mint-requests?status=SUCCESS'
+      APPLY_WRITE_URL: 'http://api/apply-mint/'
+      KINDS_URL: 'http://api/api/kinds'
+      PRICE_CONTROLLER_USERNAME: 'PRICE_CONTROLLER_USERNAME'
+      PRICE_CONTROLLER_PRIVATE_KEY: '${PRICE_CONTROLLER_PRIVATE_KEY}'
+      PRICE_CONTROLLER_PASSWORD: '${PRICE_CONTROLLER_PASSWORD}'
+    command: "npx ts-node src/main.ts"
   app:
     build:
       context: ./app

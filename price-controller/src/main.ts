@@ -9,12 +9,12 @@ envs();
 const readUrl = process.env.APPLY_READ_URL as string;
 const writeUrl = process.env.APPLY_WRITE_URL as string;
 const kindsUrl = process.env.KINDS_URL as string;
-const privateKey = process.env.PRIVATE_KEY as string;
+const privateKey = process.env.PRICE_CONTROLLER_PRIVATE_KEY as string;
 const abi = JSON.parse(fs.readFileSync("src/TradeContract.abi.json").toString());
 const postConfig = {
     auth: {
-        username: process.env.MINT_APPLIER_USERNAME,
-        password: process.env.MINT_APPLIER_PASSWORD
+        username: process.env.PRICE_CONTROLLER_USERNAME,
+        password: process.env.PRICE_CONTROLLER_PASSWORD
     }
 }
 
@@ -32,15 +32,23 @@ const main = async () => {
 
     let promises: Array<Promise<ContractTransactionResponse>> = [];
     for (const kind of kinds) {
-        console.log(`Applying for kind ${kind.name}`);
-        if (kind.name === "Druid")
+        if (kind.name !== "Druid")
             continue;
-        const tradeContractAddress = kind.payment_resource.trade_contract_address;
         const rpcUrl = kind.payment_resource.spend_resource_chain.rpc_url;
+        console.log(`Applying on network (${rpcUrl}) related to kind ${kind.name}`);
+        const tradeContractAddress = kind.payment_resource.trade_contract_address;
         const wallet = new ethers.Wallet(privateKey, new ethers.JsonRpcProvider(rpcUrl));
-        console.log(`Interacting from ${wallet.address} (on ${rpcUrl}) with contract ${tradeContractAddress}`);
-        const tradeContract = new ethers.Contract(tradeContractAddress, abi, wallet);
-        promises.push(tradeContract.getFunction("calculatePrices").send(kindId, BATCH_SIZE));
+        console.log(await wallet.provider.getBalance(wallet.address));
+        // console.log(`Interacting from ${wallet.address} (on ${rpcUrl}) with contract ${tradeContractAddress}`);
+        // const tradeContract = new ethers.Contract(tradeContractAddress, abi, wallet);
+        // try {
+        //     promises.push(tradeContract.getFunction("calculatePrices").send(kindId, BATCH_SIZE));
+        // }
+        // catch (e) {
+        //     console.error(`Error occurred on handling ${kind.name}`)
+        //     console.error(e);
+        //     process.exit(1);
+        // }
     }
 
     Promise.all(promises).then((responses) => {

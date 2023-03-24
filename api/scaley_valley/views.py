@@ -120,7 +120,7 @@ class ApplyMintView(views.APIView):
         }, status=HTTP_400_BAD_REQUEST)
 
     def post(self, request: Request) -> JsonResponse:
-        if not request.user.username == settings.MINT_APPLIER_USERNAME:
+        if not request.user.username == settings.PRICE_CONTROLLER_USERNAME:
             return self.revert("Bad applier")
         if not (tx := request.data.get("tx")):
             return self.revert("Bad tx")
