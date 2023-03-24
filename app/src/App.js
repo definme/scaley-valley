@@ -130,10 +130,12 @@ function App() {
       getSubscribeNotifications()
       getPushSocket()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAddress])
 
   useEffect(() => {
     pushSocket?.on(EVENTS.USER_FEEDS, getNotifications)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pushSocket])
 
   useEffect(() => {

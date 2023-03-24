@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import ChainIndicator from '../ChainIndicator'
 import { ConnectionContext } from '../../contexts/ConnectionContext'
@@ -96,7 +95,7 @@ function Header() {
                       justifyContent: 'space-between'
                     }}
                 >
-                  <Box className="logo__wrapper">
+                  <Box className="logo__wrapper" onClick={() => navigate('/')}>
                     <img src={logo} alt="logo" className="logo-img"/>
                     <div className="logo-title">SCALEY-VALLEY</div>
                   </Box>

@@ -63,6 +63,7 @@ export default function Valley({ valley, tokenId, forceUpdate, handleClose }) {
           <a
             href={`${networks[chainId].params.blockExplorerUrls}tx/${txHash}`}
             target='_blank'
+            rel="noreferrer"
           >
             {success ? success : txHash && shortenAddress(txHash)}
           </a>

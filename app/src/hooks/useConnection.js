@@ -90,6 +90,7 @@ const useConnection = () => {
         window.ethereum.removeListener('chainChanged', onChainChanged)
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return {

@@ -112,6 +112,7 @@ function TokenCard({
               <a
                 href={`${networks[chainId].params.blockExplorerUrls}tx/${txHash}`}
                 target='_blank'
+                without rel="noreferrer"
               >
                 {txHash && shortenAddress(txHash)}
               </a>

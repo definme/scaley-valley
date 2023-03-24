@@ -52,10 +52,12 @@ function MyTokens({ woodBalance, opticBalance, waterBalance }) {
 
   useEffect(() => {
     getAllTokens()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAddress, forced])
 
   useEffect(() => {
     if (userAddress && chainId === '5') getCollectionApprove()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAddress, chainId])
 
   return (

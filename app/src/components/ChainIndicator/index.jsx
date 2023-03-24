@@ -60,6 +60,7 @@ export default function ChainIndicator({ chain }) {
       aria-expanded={open ? 'true' : undefined}
       aria-haspopup='true'
       onClick={handleToggle}
+      style={{ cursor: 'pointer' }}
     >
       <Box
         sx={{

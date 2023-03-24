@@ -72,6 +72,7 @@ function CustomCard({
 
   useEffect(() => {
     if (userAddress) getCharacterPrice()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleBuy() {
@@ -106,7 +107,7 @@ function CustomCard({
 
   return (
     <Box className='card'>
-      <img className='card__img' src={image_uri} alt='character image' />
+      <img className='card__img' src={image_uri} alt='character' />
       <Box className='description'>
         <div className='description__text'>{description}</div>
       </Box>
@@ -169,6 +170,7 @@ function CustomCard({
               <a
                 href={`${networks[chainId].params.blockExplorerUrls}tx/${txHash}`}
                 target='_blank'
+                rel="noreferrer"
               >
                 {success ? success : txHash && shortenAddress(txHash)}
               </a>
