@@ -1,4 +1,5 @@
 FROM node:19.8.1-buster as build-app
+ARG REACT_APP_CHANNEL_PK
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json yarn.lock ./

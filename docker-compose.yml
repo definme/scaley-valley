@@ -196,6 +196,8 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
+      args:
+        REACT_APP_CHANNEL_PK: '${REACT_APP_CHANNEL_PK}'
     image: app
     restart: always
 

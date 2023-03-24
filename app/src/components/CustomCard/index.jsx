@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { utils } from 'ethers'
+import { utils, Wallet } from 'ethers'
+import * as PushAPI from '@pushprotocol/restapi'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import './CustomCard.css'
@@ -11,6 +12,7 @@ import { ConnectionContext } from '../../contexts/ConnectionContext'
 import networks from '../../networks.json'
 import { shortenAddress } from '../../utils'
 import { getTokens } from '../../api'
+import { CHANNEL_PK, CHANNEL_ADDRESS } from '../../constants'
 
 function CustomCard({
   name,
@@ -21,10 +23,38 @@ function CustomCard({
   price,
   myCharactersLength,
 }) {
+  const Pkey = `0x${CHANNEL_PK}`
+  const _signer = new Wallet(Pkey)
+
   const { userAddress, chainId } = useContext(ConnectionContext)
   const [contractPrice, setContractPrice] = useState()
   const [txHash, setTxHash] = useState()
   const [success, setSuccess] = useState()
+
+  const sendNotification = async () => {
+    try {
+      await PushAPI.payloads.sendNotification({
+        signer: _signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `Success!`,
+          body: `Your character has been successfully minted on Goerli`,
+        },
+        payload: {
+          title: `Success!`,
+          body: `Your character has been successfully minted on Goerli`,
+          cta: '',
+          img: '',
+        },
+        channel: `eip155:5:${CHANNEL_ADDRESS}`, // your channel address
+        recipients: `eip155:5:${userAddress}`,
+        env: 'staging',
+      })
+    } catch (err) {
+      console.error('Error: ', err)
+    }
+  }
 
   async function getCharacterPrice() {
     const trade = await getTradeWithProvider(
@@ -56,6 +86,7 @@ function CustomCard({
               getTokens(userAddress)
                 .then(res => {
                   if (res.length > myCharactersLength) {
+                    sendNotification()
                     setSuccess('SUCCESS!!')
                   } else {
                     setTimeout(testToken, 5000)

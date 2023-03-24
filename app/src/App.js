@@ -12,6 +12,7 @@ import { getERC20RecourceWithProvider } from './api/contracts'
 import { ConnectionContext } from './contexts/ConnectionContext'
 import Footer from './components/Footer'
 import { getSigner } from './api/contracts'
+import { CHANNEL_ADDRESS } from './constants'
 
 function App() {
   const { userAddress, chainId } = useContext(ConnectionContext)
@@ -33,14 +34,14 @@ function App() {
       },
       env: 'staging',
       userAddress: `eip155:5:${userAddress}`,
-      channelAddress: 'eip155:5:0x031A55b6156A5FCad6732fa10A6D58092413B6C6',
+      channelAddress: `eip155:5:${CHANNEL_ADDRESS}`,
     })
   }
 
   async function getSubscribeNotifications() {
     await PushAPI.channels
       .getSubscribers({
-        channel: 'eip155:5:0x031A55b6156A5FCad6732fa10A6D58092413B6C6',
+        channel: `eip155:5:${CHANNEL_ADDRESS}`,
         env: 'staging',
       })
       .then(res => {
